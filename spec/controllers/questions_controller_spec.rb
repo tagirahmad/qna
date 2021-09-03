@@ -13,7 +13,7 @@ RSpec.describe QuestionsController, type: :controller do
       expect(assigns(:questions)).to match_array(questions)
     end
 
-    it 'renders index view' do
+    it 'renders :index view' do
       expect(response).to render_template :index
     end
   end
@@ -21,7 +21,7 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'GET #show' do
     before { get :show, params: { id: question } }
 
-    it 'renders show view' do
+    it 'renders :show view' do
       expect(response).to render_template :show
     end
   end
@@ -29,7 +29,7 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'GET #new' do
     before { get :new }
 
-    it 'renders new view' do
+    it 'renders :new view' do
       expect(response).to render_template :new
     end
   end
@@ -37,7 +37,7 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'GET #edit' do
     before { get :edit, params: { id: question } }
 
-    it 'renders edit view' do
+    it 'renders :edit view' do
       expect(response).to render_template :edit
     end
   end
@@ -48,7 +48,7 @@ RSpec.describe QuestionsController, type: :controller do
         expect { post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)
       end
 
-      it 'redirects to show view' do
+      it 'redirects to :show view' do
         post :create, params: { question: attributes_for(:question) }
         expect(response).to redirect_to assigns(:question)
       end
@@ -98,7 +98,7 @@ RSpec.describe QuestionsController, type: :controller do
         expect(question.body).to eq 'MyText'
       end
 
-      it 're-renders edit view' do
+      it 're-renders :edit view' do
         expect(response).to render_template :edit
       end
     end
@@ -111,7 +111,7 @@ RSpec.describe QuestionsController, type: :controller do
       expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
     end
 
-    it 'redirects to index' do
+    it 'redirects to :index' do
       delete :destroy, params: { id: question }
       expect(response).to redirect_to questions_path
     end
