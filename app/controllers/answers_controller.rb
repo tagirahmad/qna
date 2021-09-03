@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AnswersController < ApplicationController
   def new; end
 
@@ -23,7 +25,6 @@ class AnswersController < ApplicationController
   def question
     Question.find(params[:question_id])
   end
-
 
   def answer_params
     params.require(:answer).permit(:title)
