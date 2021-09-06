@@ -25,7 +25,6 @@ feature 'User can add answer to particular question', "
 
     scenario 'makes an answer with errors' do
       click_on 'Answer to question'
-      # save_and_open_page
 
       expect(page).to have_content "Title can't be blank"
     end
@@ -43,7 +42,7 @@ feature 'User can add answer to particular question', "
       expect(page).not_to have_content  'Test answer title'
     end
 
-    scenario 'tells to user that you need to sign in' do
+    scenario 'tells to user that you need to sn in' do
       expect(page).to have_content 'You need to sign in or sign up before continuing.'
     end
   end
