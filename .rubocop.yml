@@ -8,3 +8,7 @@ RSpec/FilePath:
 
 Style/Documentation:
   Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*
