@@ -6,13 +6,20 @@ class AnswersController < ApplicationController
   def new; end
 
   def create
-    @answer = question.answers.new(answer_params)
+    @answer = question.answers.new(answer_params.merge(user_id: current_user.id))
 
     if @answer.save
       redirect_to question, notice: 'The answer was created successfully.'
     else
       render 'questions/show'
     end
+  end
+
+  def destroy
+    return unless answer.destroy
+
+    flash[:alert] = 'Answer successfully deleted!'
+    render 'questions/show'
   end
 
   private
