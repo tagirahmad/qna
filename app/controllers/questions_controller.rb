@@ -14,7 +14,7 @@ class QuestionsController < ApplicationController
   def new; end
 
   def create
-    @question = Question.create(question_params)
+    @question = Question.create(question_params.merge(user_id: current_user.id))
 
     if @question.save
       redirect_to @question, notice: 'Your question was successfully created.'
@@ -35,7 +35,7 @@ class QuestionsController < ApplicationController
 
   def destroy
     question.destroy
-    redirect_to questions_path
+    redirect_to questions_path, notice: 'Question successfully deleted!'
   end
 
   private

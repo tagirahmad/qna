@@ -33,10 +33,10 @@ feature 'User can sign up', "
       fill_in 'Password',	             with: '12345'
       fill_in 'Password confirmation', with: '12345'
       click_on 'Register'
-      
+
       expect(page).to have_content 'Password is too short'
     end
-    
+
     scenario 'with email already exists' do
       # save_and_open_page
       fill_in 'Password',	             with: '123456'

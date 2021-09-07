@@ -1,6 +1,8 @@
 h1 = question.title
 p = question.body
 
+p id='question-delete' = link_to 'Delete', question_path(question), method: :delete
+
 = render question.answers
 
 = form_with model: [question, @answer], local: true do |f|

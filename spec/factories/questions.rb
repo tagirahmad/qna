@@ -3,6 +3,7 @@
 FactoryBot.define do
   factory :question do
     sequence(:title) { |n| "My title #{n}" }
+    association :user
     body { 'MyText' }
   end
 
