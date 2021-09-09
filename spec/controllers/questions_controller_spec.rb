@@ -3,8 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
-  let(:user)     { create :user }
-  let(:question) { create :question, user: user }
+  let(:user)        { create :user }
+  let(:second_user) { create :user }
+  let(:question)    { create :question, user: user }
 
   describe 'GET #index' do
     let(:questions) { create_list(:question, 3) }
@@ -122,17 +123,43 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    before { login user }
+    let!(:question)       { create :question, user: user }
+    let(:delete_question) { delete :destroy, params: { id: question } }
+    
+    context "if question belongs to user" do
+      before { login user }
 
-    let!(:question) { create(:question) }
-
-    it 'deletes the question' do
-      expect { delete :destroy, params: { id: question } }.to change(Question, :count).by(-1)
+      describe "deletes its own question" do
+        it 'deletes the question' do
+          expect { delete_question }.to change(Question, :count).by -1
+        end
+    
+        it 'redirects to questions#index' do
+          delete_question
+          expect(response).to redirect_to questions_path
+        end
+      end
     end
 
-    it 'redirects to :index' do
-      delete :destroy, params: { id: question }
-      expect(response).to redirect_to questions_path
+    describe "if question does not belong to user" do
+      context "authenticated user" do
+        before { login second_user }
+
+        it 'can not delete not its own question' do
+          expect { delete_question }.not_to change(Question, :count)
+        end
+      end
+      
+      context "unauthenticated user" do
+        it 'can not delete not its own question' do
+          expect { delete_question }.not_to change(Question, :count)
+        end
+
+        it 'redirects to login page' do
+          delete_question
+          expect(response).to redirect_to new_user_session_path
+        end
+      end
     end
   end
 end
