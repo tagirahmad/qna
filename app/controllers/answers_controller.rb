@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
 class AnswersController < ApplicationController
-  before_action :authenticate_user!, except: :new
-
-  def new; end
+  before_action :authenticate_user!
 
   def create
     @answer = question.answers.new(answer_params.merge(user_id: current_user.id))
@@ -16,10 +14,14 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    return unless answer.destroy
-
-    flash[:alert] = 'Answer successfully deleted!'
-    render 'questions/show'
+    if current_user.author_of?(answer)
+      answer.destroy
+      flash[:alert] = 'Answer successfully deleted!'
+    else
+      flash[:error] = 'You are not allowed delete the answer'
+    end
+    
+    redirect_to @answer.question
   end
 
   private

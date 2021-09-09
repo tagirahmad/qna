@@ -2,21 +2,42 @@
 
 require 'rails_helper'
 
-feature 'User can delete answes' do
-  describe 'User can delete its own question' do
-    scenario 'finds own answer and delete it from list of all answers of a question' do
-      user     = create :user
-      question = create :question, user: user
-      answer   = create :answer, question: question, user: user
+feature 'User can delete answers' do
+  given(:user)        { create :user }
+  given(:second_user) { create :user }
+  given!(:question)   { create :question }
+  given!(:answer)     { create :answer, question: question, user: user }
 
-      login user
-      visit questions_path
+  scenario 'User can delete only its own answers' do
+    login user
+    visit questions_path
 
-      click_link(question.title)
+    click_link(question.title)
+    
+    expect(page).to have_content answer.title
 
-      within("#answer-delete-#{answer.id}") { click_on 'Delete' }
+    within("#answer-delete-#{answer.id}") { click_on 'Delete' }
 
-      expect(page).to have_content 'Answer successfully deleted!'
-    end
+    expect(page).not_to have_content answer.title
+    expect(page).to have_content 'Answer successfully deleted!'
+  end
+
+  scenario "User can not delete not its own answer" do
+    login second_user
+    visit questions_path
+
+    click_link(question.title)
+
+    expect(page).to have_content answer.title
+    expect(page).not_to have_css "#answer-delete-#{answer.id}", text: 'Delete' 
+  end
+
+  scenario "Unathenticated can not delete not its own answer" do
+    visit questions_path
+
+    click_link(question.title)
+
+    expect(page).to have_content answer.title
+    expect(page).not_to have_css "#answer-delete-#{answer.id}", text: 'Delete' 
   end
 end

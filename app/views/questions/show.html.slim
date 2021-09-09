@@ -1,7 +1,8 @@
 h1 = question.title
 p = question.body
 
-p id='question-delete' = link_to 'Delete', question_path(question), method: :delete
+- if current_user&.author_of?(question)
+    p id='question-delete' = link_to 'Delete', question_path(question), method: :delete
 
 = render question.answers
 

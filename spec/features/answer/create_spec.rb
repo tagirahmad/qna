@@ -7,7 +7,6 @@ feature 'User can add answer to particular question', "
 " do
   given!(:user) { create :user }
   given!(:question) { create :question, user: user }
-  # given!(:answer) { create :answer, question_id: question.id, user_id: user }
 
   describe 'Authenticated user' do
     background do
@@ -47,18 +46,13 @@ feature 'User can add answer to particular question', "
   end
 
   describe 'Unauthenticated user makes an answer' do
-    background do
+    scenario 'can not add an answer' do
       visit question_path(question)
 
       fill_in 'Answer title', with: 'Test answer title'
       click_on 'Answer to question'
-    end
 
-    scenario 'and view shows that there is no any answers' do
       expect(page).not_to have_content  'Test answer title'
-    end
-
-    scenario 'tells to user that you need to sign in' do
       expect(page).to have_content 'You need to sign in or sign up before continuing.'
     end
   end

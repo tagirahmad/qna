@@ -34,8 +34,12 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    question.destroy
-    redirect_to questions_path, notice: 'Question successfully deleted!'
+    if current_user.author_of?(question)
+      question.destroy
+      redirect_to questions_path, notice: 'Question successfully deleted!'
+    else
+      flash[:error] = 'You are not allowed delete the answer'
+    end
   end
 
   private

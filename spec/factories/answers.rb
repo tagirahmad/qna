@@ -3,7 +3,8 @@
 FactoryBot.define do
   factory :answer do
     title { 'MyAnswer' }
-    association :user
+    user
+    question
   end
 
   trait :invalid_answer do
