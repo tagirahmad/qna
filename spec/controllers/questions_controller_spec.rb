@@ -148,6 +148,11 @@ RSpec.describe QuestionsController, type: :controller do
         it 'can not delete not its own question' do
           expect { delete_question }.not_to change(Question, :count)
         end
+
+        it 'redirects to list of questions' do
+          delete_question
+          expect(response).to redirect_to questions_path
+        end
       end
 
       context 'when unauthenticated user' do
