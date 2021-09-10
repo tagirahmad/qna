@@ -39,6 +39,7 @@ class QuestionsController < ApplicationController
       redirect_to questions_path, notice: 'Question successfully deleted!'
     else
       flash[:error] = 'You are not allowed delete the answer'
+      redirect_to questions_path
     end
   end
 
