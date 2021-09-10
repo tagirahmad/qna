@@ -2,7 +2,8 @@
 
 FactoryBot.define do
   factory :question do
-    title { 'MyString' }
+    sequence(:title) { |n| "My title #{n}" }
+    user
     body { 'MyText' }
   end
 

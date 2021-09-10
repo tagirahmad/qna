@@ -1,1 +1,20 @@
 require: rubocop-rspec
+
+AllCops:  
+  Exclude:
+    - 'bin/**/*'
+    - 'config/**/*'
+    - 'db/**/*'
+
+RSpec/Capybara/FeatureMethods:
+  Enabled: false
+  
+RSpec/FilePath:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - spec/**/*
