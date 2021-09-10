@@ -20,7 +20,7 @@ class AnswersController < ApplicationController
     else
       flash[:error] = 'You are not allowed delete the answer'
     end
-    
+
     redirect_to @answer.question
   end
 
