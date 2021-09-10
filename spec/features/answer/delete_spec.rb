@@ -8,12 +8,12 @@ feature 'User can delete answers' do
   given!(:question)   { create :question }
   given!(:answer)     { create :answer, question: question, user: user }
 
-  scenario 'User can delete only its own answers' do
+  scenario 'User can delete only his answers' do
     login user
     visit questions_path
 
     click_link(question.title)
-    
+
     expect(page).to have_content answer.title
 
     within("#answer-delete-#{answer.id}") { click_on 'Delete' }
@@ -22,22 +22,22 @@ feature 'User can delete answers' do
     expect(page).to have_content 'Answer successfully deleted!'
   end
 
-  scenario "User can not delete not its own answer" do
+  scenario 'User can not delete not its own answer' do
     login second_user
     visit questions_path
 
     click_link(question.title)
 
     expect(page).to have_content answer.title
-    expect(page).not_to have_css "#answer-delete-#{answer.id}", text: 'Delete' 
+    expect(page).not_to have_css "#answer-delete-#{answer.id}", text: 'Delete'
   end
 
-  scenario "Unathenticated can not delete not its own answer" do
+  scenario 'Unathenticated can not delete not its own answer' do
     visit questions_path
 
     click_link(question.title)
 
     expect(page).to have_content answer.title
-    expect(page).not_to have_css "#answer-delete-#{answer.id}", text: 'Delete' 
+    expect(page).not_to have_css "#answer-delete-#{answer.id}", text: 'Delete'
   end
 end

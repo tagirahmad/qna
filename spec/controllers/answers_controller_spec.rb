@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
   let(:user) { create :user }
-  let(:second_user)   { create :user}
+  let(:second_user)   { create :user }
   let(:question) { create :question, user: user }
 
   describe 'POST #create' do
@@ -41,16 +41,16 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
-  describe "DELETE #destroy" do
+  describe 'DELETE #destroy' do
     let!(:answer) { create :answer, user: user }
-    
-    context "if answer belongs to user" do
+
+    context 'when answer belongs to user' do
       let(:delete_answer) { delete :destroy, params: { id: answer } }
 
       before { login user }
 
       it 'delete answer' do
-        expect { delete_answer }.to change(Answer, :count).by -1
+        expect { delete_answer }.to change(Answer, :count).by(-1)
         expect(response).to  redirect_to answer.question
       end
 
@@ -60,7 +60,7 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
 
-    context "if answer does not belong to user" do
+    context 'when answer does not belong to user' do
       let(:delete_answer) { delete :destroy, params: { id: answer } }
 
       before { login second_user }
@@ -71,7 +71,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'redirects to question#show' do
         delete_answer
-        expect(response).to  redirect_to answer.question
+        expect(response).to redirect_to answer.question
       end
     end
   end
