@@ -1,0 +1,7 @@
+<% if answer.persisted? %>
+  $('.answers').append('<%= j render @answer %>');
+  $('.new-answer #answer_title').val('');
+  $('.flash').html('<%= j render 'shared/flash_messages' %>');
+<% else %>
+  $('.answer-errors').html('<%= render 'shared/errors', resource: @answer %>');
+<% end %>
