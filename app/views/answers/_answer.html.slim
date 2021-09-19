@@ -1,3 +1,13 @@
-= answer.title
+p id="answer-title-#{answer.id}"= answer.title
+
+- if user_signed_in?
+  p=link_to 'Edit', '#', id: "answer-edit-#{answer.id}", class: 'edit-answer-link', data: { answer_id: answer.id }
+
+= form_with model: answer, local: false, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
+  = f.label :title, 'Answer title'
+  = f.text_area :title
+
+  = f.submit 'Save'
+
 - if current_user&.author_of?(answer)
-  p id="answer-delete-#{answer.id}" = link_to 'Delete', answer_path(answer.question, id: answer), method: :delete
+  p id="answer-delete-#{answer.id}" = link_to 'Delete', answer_path(answer), method: :delete

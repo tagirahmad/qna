@@ -3,14 +3,12 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
 
-  def create
-    @answer = question.answers.new(answer_params.merge(user_id: current_user.id))
+  def index
+    question.answers
+  end
 
-    if @answer.save
-      redirect_to question, notice: 'The answer was created successfully.'
-    else
-      render 'questions/show'
-    end
+  def create
+    @answer = question.answers.create(answer_params.merge(user_id: current_user.id))
   end
 
   def destroy
@@ -22,6 +20,16 @@ class AnswersController < ApplicationController
     end
 
     redirect_to @answer.question
+  end
+
+  def update
+    if current_user.author_of?(answer)
+      answer.update(answer_params)
+      flash.now[:notice] = 'The answer was updated successfully.'
+    end
+
+    # byebug
+    @answer = answer
   end
 
   private
