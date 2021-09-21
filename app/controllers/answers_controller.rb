@@ -28,7 +28,6 @@ class AnswersController < ApplicationController
       flash.now[:notice] = 'The answer was updated successfully.'
     end
 
-    # byebug
     @answer = answer
   end
 
