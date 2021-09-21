@@ -11,7 +11,9 @@ RSpec.describe AnswersController, type: :controller do
     context 'with valid attributes' do
       before { login user }
 
-      let(:create_answer) { post :create, params: { question_id: question.id, answer: attributes_for(:answer) }, format: :js }
+      let(:create_answer) do
+        post :create, params: { question_id: question.id, answer: attributes_for(:answer) }, format: :js
+      end
 
       it 'saves a new answer into db' do
         expect { create_answer }.to change(question.answers, :count).by 1
@@ -28,7 +30,8 @@ RSpec.describe AnswersController, type: :controller do
       before { login user }
 
       let(:create_invalid_answer) do
-        post :create, params: { question_id: question.id, answer: attributes_for(:answer, :invalid_answer) }, format: :js
+        post :create, params: { question_id: question.id, answer: attributes_for(:answer, :invalid_answer) },
+                      format: :js
       end
 
       it 'does not save a new answer' do
@@ -77,7 +80,7 @@ RSpec.describe AnswersController, type: :controller do
     end
   end
 
-  describe "PATCH #update" do
+  describe 'PATCH #update' do
     let!(:answer) { create(:answer, question: question, user: user) }
 
     before { login user }
@@ -108,5 +111,4 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
   end
-  
 end

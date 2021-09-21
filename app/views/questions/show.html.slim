@@ -1,21 +1,18 @@
-h1 = question.title
-p = question.body
-
-- if current_user&.author_of?(question)
-    p id='question-delete' = link_to 'Delete', question_path(question), method: :delete
-
 .flash
 
+.question
+  = render question
+
+.answer-errors
+    = render 'shared/errors', resource: @answer
 .answers
   = render question.answers
 
 = form_with model: [question, @answer], local: false, class: 'new-answer' do |f|
-  .answer-errors
-    = render 'shared/errors', resource: @answer
-
   = f.label :title, 'Answer title'
   = f.text_field :title
 
   = f.submit 'Answer to question'
 
+= javascript_pack_tag 'utilities/questions.js'
 = javascript_pack_tag 'utilities/answers.js'

@@ -6,4 +6,7 @@
   <% answer_id = "#answer-title-#{@answer.id}" %>
   $('.flash').html('<%= j render "shared/flash_messages" %>');
   $('<%= answer_id %>').text('<%= j @answer.title %>');
+  
+  $('#answer-edit-' + '<%= @answer.id %>').show()
+  $('form#edit-answer-' + '<%= j @answer.id %>').addClass('hidden')
 <% end %>
