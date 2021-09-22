@@ -49,23 +49,21 @@ RSpec.describe AnswersController, type: :controller do
     let!(:answer) { create :answer, user: user }
 
     context 'when answer belongs to user' do
-      let(:delete_answer) { delete :destroy, params: { id: answer } }
+      let(:delete_answer) { delete :destroy, params: { id: answer }, format: :js }
 
       before { login user }
 
       it 'delete answer' do
         expect { delete_answer }.to change(Answer, :count).by(-1)
-        expect(response).to  redirect_to answer.question
       end
 
       it 'redurects to question#show' do
         delete_answer
-        expect(response).to  redirect_to answer.question
       end
     end
 
     context 'when answer does not belong to user' do
-      let(:delete_answer) { delete :destroy, params: { id: answer } }
+      let(:delete_answer) { delete :destroy, params: { id: answer }, format: :js }
 
       before { login second_user }
 
@@ -75,7 +73,6 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'redirects to question#show' do
         delete_answer
-        expect(response).to redirect_to answer.question
       end
     end
   end

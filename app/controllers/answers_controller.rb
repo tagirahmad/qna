@@ -9,6 +9,7 @@ class AnswersController < ApplicationController
 
   def create
     @answer = question.answers.create(answer_params.merge(user_id: current_user.id))
+    flash[:alert] = 'Answer successfully created!'
   end
 
   def destroy
@@ -18,8 +19,6 @@ class AnswersController < ApplicationController
     else
       flash[:error] = 'You are not allowed delete the answer'
     end
-
-    redirect_to @answer.question
   end
 
   def update
