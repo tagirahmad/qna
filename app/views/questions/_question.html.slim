@@ -2,8 +2,8 @@ h1 id="question-title" = question.title
 p id="question-body" = question.body
 
 - if current_user&.author_of?(question)
-  p=link_to 'Edit', '#', class: 'edit-question', data: { question_id: question.id }
-  p id='question-delete' = link_to 'Delete', question_path(question), method: :delete
+  = link_to 'Edit', '#', class: 'edit-question', data: { question_id: question.id }
+  = link_to 'Delete', question_path(question), id: 'question-delete', method: :delete
 
   .question-errors
     = render 'shared/errors', resource: question

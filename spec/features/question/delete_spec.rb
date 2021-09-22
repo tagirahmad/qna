@@ -7,7 +7,7 @@ feature 'User can delete questions' do
   given(:second_user) { create :user }
   given!(:question)   { create :question, user: user }
 
-  scenario 'User can delete its own question' do
+  scenario 'User can delete its own question', js: true do
     login user
 
     visit questions_path
@@ -15,11 +15,12 @@ feature 'User can delete questions' do
     click_link(question.title)
 
     expect(page).to have_content question.title
-
-    within('#question-delete') { click_on 'Delete' }
+    click_on 'Delete', id: 'question-delete'
 
     expect(page).to have_content 'Question successfully deleted!'
-    expect(page).not_to have_content question.title
+    expect(current_path).to eq questions_path
+    expect(page).to have_no_content question.title
+    expect(page).to have_no_content question.body
   end
 
   scenario "User can't delete a question that is not its own" do
