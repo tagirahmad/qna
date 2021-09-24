@@ -56,7 +56,6 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'with valid attributes' do
       it 'saves a new question in the database' do
-        # byebug
 
         expect do
           post :create, params: { question: attributes_for(:question) }

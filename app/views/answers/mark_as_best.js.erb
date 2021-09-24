@@ -1,0 +1,12 @@
+<% if @answer.errors.present? %>
+  <% @answer.errors.full_messages.each do |message| %>
+    $('.answer-errors').html('<%= j message %>');
+  <% end %>
+<% else %>
+  $('#answer-<%= j answer.question.best_answer_id %>').html('<%= j render answer.question.best_answer %>')
+  $('#answer-<%= j answer.question.best_answer_id %>').appendTo('.best-answer')
+  <% unless @old_best_answer.nil? %>
+    $('#answer-<%= j @old_best_answer.id %>').html('<%= j render @old_best_answer %>')
+    $('#answer-<%= j @old_best_answer.id %>').appendTo('.other-answers')
+  <% end %>
+<% end %>
