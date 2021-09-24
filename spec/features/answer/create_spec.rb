@@ -5,7 +5,7 @@ require 'rails_helper'
 feature 'User can add answer to particular question', "
   In order to users can look at useful answers
 " do
-  given!(:user) { create :user }
+  given!(:user)     { create :user }
   given!(:question) { create :question, user: user }
 
   describe 'Authenticated user', js: true do

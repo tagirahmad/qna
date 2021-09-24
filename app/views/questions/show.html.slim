@@ -4,9 +4,14 @@
   = render question
 
 .answer-errors
-    = render 'shared/errors', resource: @answer
+  = render 'shared/errors', resource: @answer
+
 .answers
-  = render question.answers
+  .best-answer
+    - if @best_answer
+      = render @best_answer, class: 'best-answer'
+  .other-answers
+    = render @other_answers
 
 = form_with model: [question, @answer], local: false, class: 'new-answer' do |f|
   = f.label :title, 'Answer title'
