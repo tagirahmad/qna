@@ -1,0 +1,12 @@
+<% if @answer.errors.present? %>
+  <% @answer.errors.full_messages.each do |message| %>
+    $('.answer-errors').html('<%= j message %>');
+  <% end %>
+<% else %>
+  <% answer_id = "#answer-title-#{@answer.id}" %>
+  $('.flash').html('<%= j render "shared/flash_messages" %>');
+  $('<%= answer_id %>').text('<%= j @answer.title %>');
+  
+  $('#answer-edit-' + '<%= @answer.id %>').show()
+  $('form#edit-answer-' + '<%= j @answer.id %>').addClass('hidden')
+<% end %>

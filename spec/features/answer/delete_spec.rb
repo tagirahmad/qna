@@ -8,7 +8,7 @@ feature 'User can delete answers' do
   given!(:question)   { create :question }
   given!(:answer)     { create :answer, question: question, user: user }
 
-  scenario 'User can delete only his answers' do
+  scenario 'User can delete only his answers', js: true do
     login user
     visit questions_path
 

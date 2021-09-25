@@ -1,3 +1,20 @@
-= answer.title
-- if current_user&.author_of?(answer)
-  p id="answer-delete-#{answer.id}" = link_to 'Delete', answer_path(answer.question, id: answer), method: :delete
+= content_tag(:div, id: "answer-#{answer.id}", class: 'answer')
+  p id="answer-title-#{answer.id}"= answer.title
+
+  - if user_signed_in?
+    p = link_to 'Edit', '#', id: "answer-edit-#{answer.id}", class: 'edit-answer-link', data: { answer_id: answer.id }
+
+  - if answer.best_answer? 
+      p = 'It is the best answer!'
+  - else
+    - if current_user&.author_of?(question)
+      = link_to 'Mark as best', mark_as_best_answer_path(answer), method: :post, remote: true
+
+  = form_with model: answer, local: false, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
+    = f.label :title, 'Answer title'
+    = f.text_area :title
+
+    = f.submit 'Save'
+
+  - if current_user&.author_of?(answer)
+    p id="answer-delete-#{answer.id}" = link_to 'Delete', answer_path(answer), method: :delete, remote: true

@@ -3,14 +3,15 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
 
-  def create
-    @answer = question.answers.new(answer_params.merge(user_id: current_user.id))
+  def mark_as_best
+    @old_best_answer = question.best_answer
+    answer.mark_as_best if current_user.author_of?(answer.question)
+    @answer = answer
+  end
 
-    if @answer.save
-      redirect_to question, notice: 'The answer was created successfully.'
-    else
-      render 'questions/show'
-    end
+  def create
+    @answer = question.answers.create(answer_params.merge(user_id: current_user.id))
+    flash[:alert] = 'Answer successfully created!'
   end
 
   def destroy
@@ -20,8 +21,15 @@ class AnswersController < ApplicationController
     else
       flash[:error] = 'You are not allowed delete the answer'
     end
+  end
 
-    redirect_to @answer.question
+  def update
+    if current_user.author_of?(answer)
+      answer.update(answer_params)
+      flash.now[:notice] = 'The answer was updated successfully.'
+    end
+
+    @answer = answer
   end
 
   private
@@ -34,7 +42,7 @@ class AnswersController < ApplicationController
   helper_method :question
 
   def question
-    Question.find(params[:question_id])
+    Question.find(params[:question_id] || answer.question_id)
   end
 
   def answer_params

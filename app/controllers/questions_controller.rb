@@ -8,7 +8,9 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @answer = question.answers.new
+    @answer = Answer.new
+    @best_answer = question.best_answer
+    @other_answers = question.answers.where.not(id: question.best_answer_id)
   end
 
   def new; end
@@ -26,11 +28,12 @@ class QuestionsController < ApplicationController
   def edit; end
 
   def update
-    if question.update(question_params)
-      redirect_to @question
-    else
-      render :edit
+    if current_user.author_of?(question)
+      question.update(question_params)
+      flash.now[:notice] = 'The question was updated successfully.'
     end
+
+    @question = question
   end
 
   def destroy
