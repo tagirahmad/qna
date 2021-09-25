@@ -9,4 +9,8 @@ class Answer < ApplicationRecord
   def mark_as_best
     question.update(best_answer_id: id)
   end
+
+  def best_answer?
+    question.best_answer_id == id
+  end
 end

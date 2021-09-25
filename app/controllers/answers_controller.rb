@@ -3,13 +3,9 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
 
-  def index
-    question.answers.order(created_at: :desc)
-  end
-
   def mark_as_best
     @old_best_answer = question.best_answer
-    answer.mark_as_best if current_user.author_of?(answer)
+    answer.mark_as_best if current_user.author_of?(answer.question)
     @answer = answer
   end
 

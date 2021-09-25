@@ -4,7 +4,7 @@
   - if user_signed_in?
     p = link_to 'Edit', '#', id: "answer-edit-#{answer.id}", class: 'edit-answer-link', data: { answer_id: answer.id }
 
-  - if question.best_answer_id == answer.id 
+  - if answer.best_answer? 
       p = 'It is the best answer!'
   - else
     - if current_user&.author_of?(question)
