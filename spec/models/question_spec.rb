@@ -8,7 +8,7 @@ RSpec.describe Question, type: :model do
 
   it { is_expected.to have_many(:answers).dependent(:destroy) }
 
-  it 'has one attached file' do
-    expect(described_class.new.file).to be_an_instance_of ActiveStorage::Attached::One
+  it 'has many attached files' do
+    expect(described_class.new.files).to be_an_instance_of ActiveStorage::Attached::Many
   end
 end
