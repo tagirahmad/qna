@@ -15,18 +15,45 @@ feature 'User can edit his answer' do
   end
 
   describe 'Authenticated user' do
-    scenario 'edits his answer', js: true do
-      login user
+    describe 'edits his answer', js: true do
+      before do
+        login user
+        visit question_path(question)
+      end
 
-      visit question_path(question)
+      describe 'manipulating files' do
+        before do
+          within '.answers' do
+            click_on 'Edit', id: "answer-edit-#{answer.id}"
+            attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
 
-      within '.answers' do
-        click_on 'Edit', id: "answer-edit-#{answer.id}"
+            fill_in 'answer[title]', with: 'edited answer'
+            click_on 'Save'
+          end
+        end
 
-        fill_in 'answer[title]', with: 'edited answer'
-        click_on 'Save'
+        scenario 'adds files while edits his answer' do
+          expect(page).to have_link 'rails_helper.rb'
+          expect(page).to have_link 'spec_helper.rb'
+        end
 
-        # wait_for_ajax
+        scenario 'deletes added files' do
+          sleep(1)
+          within "#file-#{answer.files.first.id}" do
+            click_on 'Delete'
+          end
+
+          expect(page).not_to have_link 'rails_helper.rb'
+        end
+      end
+
+      scenario 'edits his answer' do
+        within '.answers' do
+          click_on 'Edit', id: "answer-edit-#{answer.id}"
+
+          fill_in 'answer[title]', with: 'edited answer'
+          click_on 'Save'
+        end
 
         expect(page).not_to have_content answer.title
         expect(page).to have_content 'edited answer'

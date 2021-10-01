@@ -3,9 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let(:user) { create :user }
-  let(:second_user)   { create :user }
-  let(:question) { create :question, user: user }
+  let(:user)        { create :user }
+  let(:second_user) { create :user }
+  let(:question)    { create :question, user: user }
 
   describe 'POST #create' do
     context 'with valid attributes' do
@@ -57,7 +57,7 @@ RSpec.describe AnswersController, type: :controller do
         expect { delete_answer }.to change(Answer, :count).by(-1)
       end
 
-      it 'redurects to question#show' do
+      it 'redirects to question#show' do
         delete_answer
       end
     end

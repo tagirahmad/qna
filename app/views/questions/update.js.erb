@@ -4,8 +4,7 @@
   <% end %>
 <% else %>
   $('.flash').html('<%= j render "shared/flash_messages" %>');
-  $('#question-title').text('<%= j @question.title %>');
-  $('#question-body').text('<%= j @question.body %>');
+  $('.question').replaceWith('<%= j render @question %>');
   $('.edit-question').show()
   $('form#edit-question-' + '<%= j @question.id %>').addClass('hidden')
 <% end %>

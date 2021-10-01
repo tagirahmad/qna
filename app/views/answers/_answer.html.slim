@@ -1,5 +1,5 @@
 = content_tag(:div, id: "answer-#{answer.id}", class: 'answer')
-  p id="answer-title-#{answer.id}"= answer.title
+  p = answer.title
 
   - if user_signed_in?
     p = link_to 'Edit', '#', id: "answer-edit-#{answer.id}", class: 'edit-answer-link', data: { answer_id: answer.id }
@@ -9,10 +9,20 @@
   - else
     - if current_user&.author_of?(question)
       = link_to 'Mark as best', mark_as_best_answer_path(answer), method: :post, remote: true
+  
+  - if answer.files.attached?
+    br
+    - answer.files.each do |file|
+      div id="file-#{file.id}"
+        = link_to file.filename.to_s, url_for(file)
+        - if current_user&.author_of?(answer)
+          = link_to 'Delete', attachment_path(file), method: :delete, local: false, remote: true
 
   = form_with model: answer, local: false, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
     = f.label :title, 'Answer title'
     = f.text_area :title
+    = f.label :files
+    = f.file_field :files, multiple: true
 
     = f.submit 'Save'
 
