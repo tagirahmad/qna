@@ -17,6 +17,13 @@
         = link_to file.filename.to_s, url_for(file)
         - if current_user&.author_of?(answer)
           = link_to 'Delete', attachment_path(file), method: :delete, local: false, remote: true
+  
+  .links
+    - unless answer.links.empty?
+      p Links:
+      ul
+        - answer.links.each do |link|
+          li = link_to link.name, link.url
 
   = form_with model: answer, local: false, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
     = f.label :title, 'Answer title'
