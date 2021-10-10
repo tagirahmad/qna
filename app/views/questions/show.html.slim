@@ -6,13 +6,6 @@
 .answer-errors
   = render 'shared/errors', resource: @answer
 
-- if question.links.any?
-  .links
-    p Links:
-    ul
-      - question.links.each do |link|
-        li= link_to link.name, link.url
-
 .answers
   .best-answer
     - if @best_answer
