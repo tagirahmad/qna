@@ -2,19 +2,20 @@
 
 require 'rails_helper'
 
-feature 'User can delete links from  question' do
+feature 'User can delete links from answer' do
  	given(:user)        { create :user }
   given(:second_user) { create :user  }
   given(:question)    { create :question, user: user  }
-  given!(:link)       { create :link, linkable: question }
+  given(:answer)      { create :answer, user: user, question: question  }
+  given!(:link)       { create :link, linkable: answer }
 
-  context 'Owner' do 
-    scenario 'User deletes links when edit question', js: true do
+  context 'Owner' do
+    scenario 'User deletes links from answer', js: true do
       login user
 
       visit question_path question
 
-      within '.question .links' do
+      within '.answers .links' do
         click_on 'Delete'
       end
 
@@ -27,11 +28,10 @@ feature 'User can delete links from  question' do
       login second_user
 
       visit question_path question
-      
-      within '.question .links' do
+
+      within(all('.answers .links').first) do
         expect(page).not_to have_link 'Delete'
       end
     end
   end
 end
-

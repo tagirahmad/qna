@@ -18,17 +18,8 @@
   = f.text_field :title
   = f.label :files
   = f.file_field :files, multiple: true
-  p Links:
-  p
-    = f.fields_for :links do |l|
-      p
-        = l.label :name, 'Link name'
-        = l.text_field :name
-      p
-        = l.label :url
-        = l.text_field :url
- 
-
+  = render 'links/form', form: f 
+  
   = f.submit 'Answer to question'
 
 = javascript_pack_tag 'utilities/questions.js'
