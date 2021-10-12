@@ -1,7 +1,7 @@
 = content_tag(:div, id: "answer-#{answer.id}", class: 'answer')
   p = answer.title
 
-  - if user_signed_in?
+  - if user_signed_in? && current_user&.author_of?(answer)
     p = link_to 'Edit', '#', id: "answer-edit-#{answer.id}", class: 'edit-answer-link', data: { answer_id: answer.id }
 
   - if answer.best_answer? 
