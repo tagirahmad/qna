@@ -32,7 +32,7 @@ feature 'User can add links to question', '
       
       click_on 'Ask'
 
-      expect(page).to have_link 'My gist', href: gist_url
+      expect(page).to have_link 'My gist',  href: gist_url
       expect(page).to have_link 'My gist2', href: gist_url2
     end
 
