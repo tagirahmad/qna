@@ -7,6 +7,7 @@ feature 'User can edit his answer' do
   given!(:second_user) { create :user }
   given!(:question)    { create :question }
   given!(:answer)      { create :answer, question: question, user: user }
+  given!(:link)        { create :link, linkable: answer  }
 
   scenario 'Unathenticated user can not edit answer' do
     visit question_path(question)
@@ -44,6 +45,21 @@ feature 'User can edit his answer' do
           end
 
           expect(page).not_to have_link 'rails_helper.rb'
+        end
+      end
+      
+      describe 'edits links' do
+        scenario 'press Edit to change url name', js: true do
+          within '.answers' do
+            click_on 'Edit'
+
+            fill_in 'Link name', with: 'link changed'
+            fill_in 'Url',       with: 'https://facebook.com'
+
+            click_on 'Save'
+          end
+          sleep(1)
+          expect(page).to have_link 'link changed', href: 'https://facebook.com'
         end
       end
 
