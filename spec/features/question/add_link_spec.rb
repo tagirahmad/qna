@@ -25,7 +25,7 @@ feature 'User can add links to question', '
 
       click_on 'Add a link'
       
-      within '.nested-fields' do
+      within(all('.nested-fields')[1]) do
         fill_in 'Link name',	with: 'My gist2'
         fill_in 'Url',	      with: gist_url2
       end
