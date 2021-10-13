@@ -15,7 +15,21 @@ p id="question-body" = question.body
       - question.links.each do |link|
         div id="link-#{link.id}"
           li
-            = link_to link.name, link.url
+            div
+              = link_to link.name, link.url
+              - if link.gist?
+                span data-gist-id=link.id
+                javascript:
+                  gistClient
+                      .setToken("#{ENV['GITHUB_ACCESS_TOKEN']}")
+                      .getOneById("#{link.gist_id}")
+                      .then(response => {
+                          for (const file in response.files) {
+                              const current = document.querySelector('[data-gist-id="#{link.id}"]')
+                              current.innerText = response.files[file].content
+                          }
+                      }).catch(err => console.log(err))
+
             - if current_user&.author_of?(link.linkable)
               = link_to 'Delete', link_path(link), method: :delete, remote: true 
 
