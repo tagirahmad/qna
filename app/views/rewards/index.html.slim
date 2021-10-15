@@ -1,0 +1,6 @@
+- @rewards.each do |reward|
+  p = reward.name
+  p = reward.question.title
+  - if reward.image.persisted?
+    p = image_tag reward.image
+

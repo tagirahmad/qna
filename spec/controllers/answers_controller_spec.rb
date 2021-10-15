@@ -108,4 +108,23 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
   end
+
+  describe '#mark_as_best', js: true do
+    let!(:answer) { create(:answer, question: question, user: user) }
+    let!(:reward) { create :reward, question: answer.question }
+    
+    before do 
+      login user
+      patch :mark_as_best,  params: { id: answer }, format: :js
+      answer.reload
+    end
+
+    it 'makes the answer as best' do
+      expect(answer.question.best_answer_id).to eq answer.id
+    end
+
+    it 'gives to answers author a reward' do
+      expect(answer.question.reward.user).to eq answer.user
+    end
+  end
 end
