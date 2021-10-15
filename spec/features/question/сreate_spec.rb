@@ -38,6 +38,16 @@ feature 'User can create question', "
       expect(page).to have_link 'spec_helper.rb'
     end
 
+    scenario 'asks a question with links' do
+      fill_in 'Title',     with: 'Test question title'
+      fill_in 'Body',      with: 'Test question body'
+      fill_in 'Link name', with: 'https://google.com'
+      fill_in 'Url',       with: 'https://google.com'
+      click_on 'Ask'
+
+      expect(page).to have_link 'https://google.com'
+    end
+
     scenario 'asks a question with errors' do
       click_on 'Ask'
 

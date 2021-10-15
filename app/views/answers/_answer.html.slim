@@ -8,7 +8,7 @@
       p = 'It is the best answer!'
   - else
     - if current_user&.author_of?(question)
-      = link_to 'Mark as best', mark_as_best_answer_path(answer), method: :post, remote: true
+      = link_to 'Mark as best', mark_as_best_answer_path(answer), method: :patch, remote: true
   
   - if answer.files.attached?
     br

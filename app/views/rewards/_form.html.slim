@@ -1,0 +1,7 @@
+p Reward (Optional):
+= form.fields_for :reward do |r|
+  p = r.label :name, 'Reward name'
+  p = r.text_field :name
+
+  p = r.label :image
+  p = r.file_field :image

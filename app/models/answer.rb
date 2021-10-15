@@ -9,11 +9,11 @@ class Answer < ApplicationRecord
 
   accepts_nested_attributes_for :links, reject_if: :all_blank
 
-
   validates :title, presence: true
 
   def mark_as_best
     question.update(best_answer_id: id)
+    question.reward&.update(user: user)
   end
 
   def best_answer?
