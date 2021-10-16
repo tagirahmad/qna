@@ -1,0 +1,5 @@
+$('#link-' + '<%= j @link.id  %>').remove();
+<% if @link.linkable.links.empty?  %>
+    $('.links').remove();
+<% end %>
+

@@ -7,6 +7,7 @@ ruby '2.7.2'
 
 gem 'aws-sdk-s3', '~> 1', require: false
 gem 'bootsnap', '>= 1.4.4', require: false
+gem "cocoon"
 gem 'devise'
 gem 'jbuilder', '~> 2.7'
 gem 'jquery-rails'
@@ -17,6 +18,7 @@ gem 'sass-rails', '>= 6'
 gem 'slim-rails'
 gem 'turbolinks', '~> 5'
 gem 'webpacker', '~> 5.0'
+gem 'dotenv-rails'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]

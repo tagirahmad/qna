@@ -8,6 +8,31 @@ p id="question-body" = question.body
       - if current_user&.author_of?(question)
         = link_to 'Delete', attachment_path(file), method: :delete, local: false, remote: true
 
+- if question.links.any?
+  .links
+    p Links:
+    ul
+      - question.links.each do |link|
+        div id="link-#{link.id}"
+          li
+            div
+              = link_to link.name, link.url
+              - if link.gist?
+                span data-gist-id=link.id
+                javascript:
+                  gistClient
+                      .setToken("#{ENV['GITHUB_ACCESS_TOKEN']}")
+                      .getOneById("#{link.gist_id}")
+                      .then(response => {
+                          for (const file in response.files) {
+                              const current = document.querySelector('[data-gist-id="#{link.id}"]')
+                              current.innerText = response.files[file].content
+                          }
+                      }).catch(err => console.log(err))
+
+            - if current_user&.author_of?(link.linkable)
+              = link_to 'Delete', link_path(link), method: :delete, remote: true 
+
 - if current_user&.author_of?(question)
   p = link_to 'Edit', '#', class: 'edit-question', data: { question_id: question.id }
   = link_to 'Delete', question_path(question), id: 'question-delete', method: :delete
@@ -22,5 +47,6 @@ p id="question-body" = question.body
     = f.text_area :body
     = f.label :files
     = f.file_field :files, multiple: true
+    = render 'links/form', form: f
 
     = f.submit 'Save'

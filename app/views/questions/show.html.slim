@@ -18,7 +18,8 @@
   = f.text_field :title
   = f.label :files
   = f.file_field :files, multiple: true
-
+  = render 'links/form', form: f 
+  
   = f.submit 'Answer to question'
 
 = javascript_pack_tag 'utilities/questions.js'
