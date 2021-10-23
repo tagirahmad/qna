@@ -14,7 +14,7 @@ module Votable
   end
 
   def unvote(user)
-    Vote.where(user_id: user).delete_all
+    votes.where(user_id: user).delete_all
   end
 
   def votes_score
@@ -22,10 +22,6 @@ module Votable
   end
 
   private
-
- # def voted_by?(user)
-  #  votes.exists?(user: user)
-  #end
 
   def make_vote(user, value)
     vote = votes.find_or_initialize_by(user_id: user.id)
