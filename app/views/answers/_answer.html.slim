@@ -29,6 +29,9 @@
                 - if current_user&.author_of?(link.linkable)
                   = link_to 'Delete', link_path(link), method: :delete, remote: true 
 
+  .votes
+    = render 'votes/vote', resource: answer
+
   = form_with model: answer, local: false, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
     = f.label :title, 'Answer title'
     = f.text_area :title

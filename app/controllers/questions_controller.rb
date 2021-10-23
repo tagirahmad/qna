@@ -3,6 +3,8 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
 
+  include Voted
+
   def index
     @questions = Question.all
   end
@@ -59,6 +61,7 @@ class QuestionsController < ApplicationController
   helper_method :question
 
   def question_params
-    params.require(:question).permit(:title, :body, files: [], links_attributes: %i[name url id], reward_attributes: %i[name image])
+    params.require(:question).permit(:title, :body, files: [], links_attributes: %i[name url id],
+                                                    reward_attributes: %i[name image])
   end
 end

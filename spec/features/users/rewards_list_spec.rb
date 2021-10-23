@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 feature 'The user can view a list of all his rewards.' do
@@ -5,10 +7,12 @@ feature 'The user can view a list of all his rewards.' do
   given!(:questions)     { create_list(:question, 2, user: users.first) }
   given!(:answer)        { create(:answer, question: questions.first, user: users.first) }
   given!(:second_answer) { create(:answer, question: questions.last,  user: users.last) }
-  given!(:reward)        { create :reward, :with_image, question: questions.first, user: users.first}
-  given!(:second_reward) { create :reward, :with_image, question: questions.last, user: users.last, name: 'second reward'  }
+  given!(:reward)        { create :reward, :with_image, question: questions.first, user: users.first }
+  given!(:second_reward) do
+    create :reward, :with_image, question: questions.last, user: users.last, name: 'second reward'
+  end
 
-  describe  'Authenticated user' do
+  describe 'Authenticated user' do
     before do
       login users.first
       questions.first.update(best_answer_id: answer.id)
@@ -24,7 +28,7 @@ feature 'The user can view a list of all his rewards.' do
     end
   end
 
-  describe 'Unauthenticated user 'do
+  describe 'Unauthenticated user ' do
     scenario 'have not link to rewards page' do
       expect(page).not_to have_link 'Rewards'
     end

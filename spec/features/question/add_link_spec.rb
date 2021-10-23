@@ -9,27 +9,27 @@ feature 'User can add links to question', '
   given(:second_user) { create :user }
   given(:gist_url)    { 'https://gist.github.com/tagirahmad/62598000f63a19949cbfeb39793a3c29' }
   given(:gist_url2)   { 'https://google.com' }
-  given(:question)    { create :question, user: user  }
+  given(:question)    { create :question, user: user }
 
   context 'Owner' do
-    before { login user  }
+    before { login user }
 
     scenario 'User adds links when asks question', js: true do
       visit new_question_path
 
       fill_in 'Title',	with: 'Test question'
-      fill_in 'Body',	  with: 'text text text'
+      fill_in 'Body', with: 'text text text'
 
       fill_in 'Link name',	with: 'My gist'
       fill_in 'Url',	      with: gist_url
 
       click_on 'Add a link'
-      
+
       within(all('.nested-fields')[1]) do
         fill_in 'Link name',	with: 'My gist2'
         fill_in 'Url',	      with: gist_url2
       end
-      
+
       click_on 'Ask'
 
       expect(page).to have_link 'My gist',  href: gist_url
@@ -42,14 +42,13 @@ feature 'User can add links to question', '
       within '.question' do
         click_on 'Edit'
         click_on 'Add a link'
-       
+
         fill_in 'Link name',	with: 'My gist'
         fill_in 'Url',	      with: gist_url
 
         click_on 'Save'
 
         expect(page).to have_link 'My gist', href: gist_url
-
       end
     end
   end
@@ -63,5 +62,4 @@ feature 'User can add links to question', '
       expect(page).not_to have_link 'Edit'
     end
   end
-
 end

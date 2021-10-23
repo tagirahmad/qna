@@ -18,7 +18,7 @@ feature 'User can delete questions' do
     click_on 'Delete', id: 'question-delete'
 
     expect(page).to have_content 'Question successfully deleted!'
-    expect(current_path).to eq questions_path
+    expect(page).to have_current_path questions_path, ignore_query: true
     expect(page).to have_no_content question.title
     expect(page).to have_no_content question.body
   end

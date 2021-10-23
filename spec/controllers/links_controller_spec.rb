@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe LinksController, type: :controller do
@@ -26,7 +28,7 @@ RSpec.describe LinksController, type: :controller do
       before { login second_user }
 
       it 'user tries to delete not his link' do
-        expect { delete_link }.to_not change(question.links, :count)
+        expect { delete_link }.not_to change(question.links, :count)
       end
 
       it 'renders show view' do
@@ -36,7 +38,7 @@ RSpec.describe LinksController, type: :controller do
 
     context 'Unauthorized user' do
       it 'tries to delete link' do
-        expect { delete_link }.to_not change(question.links, :count)
+        expect { delete_link }.not_to change(question.links, :count)
       end
 
       it 'show error message' do

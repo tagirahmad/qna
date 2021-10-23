@@ -1,0 +1,14 @@
+.vote-score data-vote-id="#{resource.id}"
+  p = resource.votes_score
+.vote-up 
+  = link_to 'Vote up', polymorphic_path(resource, action: :vote_up), 
+                       class: 'vote-btn',
+                       method: :patch, data: { type: :json }, remote: true
+.vote-down 
+  = link_to 'Vote down', polymorphic_path(resource, action: :vote_down),
+                         class: 'vote-btn',
+                         method: :patch, data: { type: :json }, remote: true
+.unvote 
+  = link_to 'Unvote', polymorphic_path(resource, action: :unvote),
+                      class: 'vote-btn',
+                      method: :delete, data: { type: :json }, remote: true

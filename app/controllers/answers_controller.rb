@@ -3,6 +3,8 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
 
+  include Voted
+
   def mark_as_best
     @old_best_answer = question.best_answer
     answer.mark_as_best if current_user.author_of?(answer.question)

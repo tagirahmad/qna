@@ -24,9 +24,9 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'GET #show' do
     before { get :show, params: { id: question } }
 
-   it 'assigns new link to asnwer' do
-     expect(assigns(:answer).links.first).to be_a_new(Link)
-   end
+    it 'assigns new link to asnwer' do
+      expect(assigns(:answer).links.first).to be_a_new(Link)
+    end
 
     it 'renders :show view' do
       expect(response).to render_template :show
@@ -68,7 +68,6 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'with valid attributes' do
       it 'saves a new question in the database' do
-
         expect do
           post :create, params: { question: attributes_for(:question) }
         end.to change(Question, :count).by 1

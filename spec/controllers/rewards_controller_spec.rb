@@ -21,10 +21,9 @@ RSpec.describe RewardsController, type: :controller do
     it 'shows that user has reward' do
       expect(assigns(:rewards)).to eq [reward]
     end
-    
+
     it 'user has not a reward' do
       expect(assigns(:rewards)).not_to eq [reward_without_user]
     end
-
   end
 end
