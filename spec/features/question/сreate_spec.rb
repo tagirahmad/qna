@@ -53,7 +53,6 @@ feature 'User can create question', "
 
       expect(page).to have_content "Title can't be blank"
     end
-
   end
 
   scenario 'Unauthenticated user asks a question' do

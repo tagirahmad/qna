@@ -3,10 +3,10 @@
 require 'rails_helper'
 
 feature 'User can delete links from answer' do
- 	given(:user)        { create :user }
-  given(:second_user) { create :user  }
-  given(:question)    { create :question, user: user  }
-  given(:answer)      { create :answer, user: user, question: question  }
+  given(:user) { create :user }
+  given(:second_user) { create :user }
+  given(:question)    { create :question, user: user }
+  given(:answer)      { create :answer, user: user, question: question }
   given!(:link)       { create :link, linkable: answer }
 
   context 'Owner' do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Votable
   extend ActiveSupport::Concern
 
@@ -30,7 +32,7 @@ module Votable
       vote.value = value
       vote.save!
     end
-    
-    return
+
+    nil
   end
 end

@@ -6,7 +6,7 @@ feature 'User can edit his question' do
   given!(:user)        { create :user }
   given!(:second_user) { create :user }
   given!(:question)    { create :question, :with_file, user: user }
-  given!(:link)        { create :link, linkable: question  }
+  given!(:link)        { create :link, linkable: question }
 
   scenario 'Unathenticated user can not edit question' do
     visit question_path(question)
@@ -33,7 +33,7 @@ feature 'User can edit his question' do
         expect(page).to have_content 'my edited question body'
         expect(page).not_to have_selector 'textarea'
       end
-      
+
       describe 'edits links' do
         scenario 'press Edit to change url name', js: true do
           click_on 'Edit', class: 'edit-question'

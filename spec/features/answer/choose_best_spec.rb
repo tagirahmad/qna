@@ -51,11 +51,11 @@ feature 'User can choose best answer' do
 
     expect(page).to have_content answer.title
     expect(page).to have_content second_answer.title
-    
+
     within("#answer-#{second_answer.id}") { click_on 'Mark as best' }
-    
+
     sleep(1)
 
-    expect(first(".answers .answer").text).to have_content 'It is the best answer!'
+    expect(first('.answers .answer').text).to have_content 'It is the best answer!'
   end
 end
