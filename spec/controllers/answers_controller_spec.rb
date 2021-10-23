@@ -3,11 +3,11 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  it_behaves_like 'voted'
-
-  let(:user)        { create :user }
-  let(:second_user) { create :user }
   let(:question)    { create :question, user: user }
+  let(:second_user) { create :user }
+  let(:user)        { create :user }
+
+  it_behaves_like 'voted'
 
   describe 'POST #create' do
     context 'with valid attributes' do
@@ -114,10 +114,10 @@ RSpec.describe AnswersController, type: :controller do
   describe '#mark_as_best', js: true do
     let!(:answer) { create(:answer, question: question, user: user) }
     let!(:reward) { create :reward, question: answer.question }
-    
-    before do 
+
+    before do
       login user
-      patch :mark_as_best,  params: { id: answer }, format: :js
+      patch :mark_as_best, params: { id: answer }, format: :js
       answer.reload
     end
 

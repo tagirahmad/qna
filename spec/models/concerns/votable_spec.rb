@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.shared_examples_for 'votable' do
@@ -10,11 +12,11 @@ RSpec.shared_examples_for 'votable' do
   describe '#vote_up' do
     context 'Votable owner' do
       it 'model has zero votes' do
-        model.vote_up(user) 
+        model.vote_up(user)
         expect(model.votes_score).to eq 0
       end
     end
-    
+
     context 'Votable non-owner' do
       before { model.vote_up(second_user) }
 
@@ -32,7 +34,7 @@ RSpec.shared_examples_for 'votable' do
   describe '#vote_down' do
     context 'Votable owner' do
       it 'model has zero votes' do
-        model.vote_down(user) 
+        model.vote_down(user)
         expect(model.votes_score).to eq 0
       end
     end
@@ -41,12 +43,12 @@ RSpec.shared_examples_for 'votable' do
       before { model.vote_down(second_user) }
 
       it 'model has -1 vote' do
-        model.vote_down(second_user) 
-        expect(model.votes_score).to eq -1
+        model.vote_down(second_user)
+        expect(model.votes_score).to eq(-1)
       end
 
       it 'can not unvote again' do
-        expect(model.votes_score).to eq -1
+        expect(model.votes_score).to eq(-1)
       end
     end
   end
@@ -56,11 +58,11 @@ RSpec.shared_examples_for 'votable' do
       before { model.vote_up(second_user) }
 
       it 'decreases votes count by one' do
-        expect{ model.unvote(second_user) }.to change(model.votes, :count).by -1
+        expect { model.unvote(second_user) }.to change(model.votes, :count).by(-1)
       end
 
       it 'decreases total votes score by one' do
-        expect {  model.unvote(second_user) }.to change { model.votes_score }.from(1).to 0
+        expect { model.unvote(second_user) }.to change(model, :votes_score).from(1).to 0
       end
 
       it 'declares that there is no such voted user' do

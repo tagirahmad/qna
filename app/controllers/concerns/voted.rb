@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Voted
   extend ActiveSupport::Concern
 
@@ -10,40 +12,40 @@ module Voted
     @votable.vote_up(current_user)
     success
   end
-  
+
   def vote_down
-     @votable.vote_down(current_user)
-     success
+    @votable.vote_down(current_user)
+    success
   end
 
-   def unvote
+  def unvote
     @votable.unvote(current_user)
     success
-  end 
+  end
 
-   private
+  private
 
-   def validate_votable
-     error('Author can not vote') if current_user.author_of?(@votable)
-   end
+  def validate_votable
+    error('Author can not vote') if current_user.author_of?(@votable)
+  end
 
-   def success
-     render json: {
-       id:    @votable.id,
-       name:  @votable.class.name.underscore,
-       score: @votable.votes_score
-     }
-   end
+  def success
+    render json: {
+      id: @votable.id,
+      name: @votable.class.name.underscore,
+      score: @votable.votes_score
+    }
+  end
 
-   def error(message)
-     render json: { message: message }, status: :forbidden
-   end
+  def error(message)
+    render json: { message: message }, status: :forbidden
+  end
 
-   def find_votable
-     @votable = klass_model.find(params[:id])
-   end
+  def find_votable
+    @votable = klass_model.find(params[:id])
+  end
 
-   def klass_model
-     controller_name.classify.constantize
-   end
+  def klass_model
+    controller_name.classify.constantize
+  end
 end

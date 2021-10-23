@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 shared_examples 'voted' do
   let(:user)  { create(:user) }
   let(:model) { create(described_class.controller_name.classify.underscore.to_sym) }
-  
+
   let(:parameters) { { id: model.id, format: :json } }
 
   describe 'PATCH #vote_up' do
@@ -37,7 +39,7 @@ shared_examples 'voted' do
       end
 
       it 'gets 401 status Unauthorized' do
-        expect(subject).to have_http_status 401
+        expect(subject).to have_http_status :unauthorized
       end
     end
   end
@@ -56,7 +58,7 @@ shared_examples 'voted' do
         it 'can not vote twice' do
           subject
           subject
-          expect(model.votes_score).to eq -1
+          expect(model.votes_score).to eq(-1)
         end
       end
 
@@ -75,7 +77,7 @@ shared_examples 'voted' do
       end
 
       it 'gets 401 status Unauthorized' do
-        expect(subject).to have_http_status 401
+        expect(subject).to have_http_status :unauthorized
       end
     end
   end
@@ -86,12 +88,12 @@ shared_examples 'voted' do
     describe 'Authorized user' do
       before do
         login user
-        patch :vote_up, params: parameters 
+        patch :vote_up, params: parameters
       end
 
       context 'entity non-owner' do
         it 'can unvote' do
-          expect { subject }.to change(model.votes, :count).by -1
+          expect { subject }.to change(model.votes, :count).by(-1)
         end
 
         it 'can not unvote twice' do
@@ -116,7 +118,7 @@ shared_examples 'voted' do
       end
 
       it 'gets 401 status Unauthorized' do
-        expect(subject).to have_http_status 401
+        expect(subject).to have_http_status :unauthorized
       end
     end
   end

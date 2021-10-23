@@ -3,13 +3,13 @@
 require 'rails_helper'
 
 feature 'User can vote on answer' do
-	given(:user)				   { create :user }
-	given(:second_user)    { create :user  }
-  given(:third_user)     { create :user }
-  given(:question)		   { create :question }
-	given!(:answer)			   { create :answer, question: question, user: user }
+  given(:user) { create :user }
+  given(:second_user) { create :user }
+  given(:third_user) { create :user }
+  given(:question) { create :question }
+  given!(:answer) { create :answer, question: question, user: user }
 
-	scenario 'Unauthorized user can not vote for answer', :js do
+  scenario 'Unauthorized user can not vote for answer', :js do
     visit question_path question
 
     within '.answers' do
@@ -39,8 +39,8 @@ feature 'User can vote on answer' do
       end
 
       scenario 'votes up', js: true do
-          click_on 'Vote up'
-          expect(page).to have_content '1'
+        click_on 'Vote up'
+        expect(page).to have_content '1'
       end
 
       scenario 'votes down', js: true do
@@ -72,7 +72,7 @@ feature 'User can vote on answer' do
       scenario 'can not vote twice', js: true do
         click_on 'Vote up'
         click_on 'Vote up'
-        
+
         expect(page).to have_content '1'
       end
     end
