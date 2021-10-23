@@ -3,15 +3,15 @@
 .question
   = render question
 
-.answer-errors
-  = render 'shared/errors', resource: @answer
-
 .answers
   .best-answer
     - if @best_answer
       = render @best_answer, class: 'best-answer'
   .other-answers
     = render @other_answers
+
+.answer-errors
+  = render 'shared/errors', resource: @answer
 
 = form_with model: [question, @answer], local: false, class: 'new-answer' do |f|
   = f.label :title, 'Answer title'
@@ -24,3 +24,4 @@
 
 = javascript_pack_tag 'utilities/questions.js'
 = javascript_pack_tag 'utilities/answers.js'
+= javascript_pack_tag 'utilities/votes.js'
