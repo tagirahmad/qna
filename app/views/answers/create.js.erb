@@ -4,4 +4,5 @@
   $('.flash').html('<%= j render 'shared/flash_messages' %>');
 <% else %>
   $('.answer-errors').html('<%= render 'shared/errors', resource: @answer %>');
+  $('.flash').html('<%= j render 'shared/flash_messages' %>');
 <% end %>

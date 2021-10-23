@@ -33,6 +33,8 @@ p id="question-body" = question.body
             - if current_user&.author_of?(link.linkable)
               = link_to 'Delete', link_path(link), method: :delete, remote: true 
 
+= render 'votes/vote', resource: question
+
 - if current_user&.author_of?(question)
   p = link_to 'Edit', '#', class: 'edit-question', data: { question_id: question.id }
   = link_to 'Delete', question_path(question), id: 'question-delete', method: :delete
