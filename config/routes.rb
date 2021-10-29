@@ -22,4 +22,6 @@ Rails.application.routes.draw do
   resources :rewards,     only: :index
 
   root to: 'questions#index'
+
+  mount ActionCable.server => '/cable'
 end
