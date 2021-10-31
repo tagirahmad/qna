@@ -2,6 +2,7 @@
 
 class AnswersController < ApplicationController
   before_action :authenticate_user!
+  after_action :publish_answer, only: %i[create]
 
   include Voted
 
@@ -42,6 +43,20 @@ class AnswersController < ApplicationController
 
   helper_method :answer
   helper_method :question
+
+  def publish_answer
+    return if @answer.errors.any?
+    ActionCable.server.broadcast(
+      "questions/#{params[:question_id]}/answers",
+      {
+        partial: ApplicationController.render(
+          partial: 'answers/non_author_answer', 
+          locals: { answer: @answer }
+        ),
+        current_user_id: current_user.id
+      }
+    )
+  end
 
   def question
     Question.find(params[:question_id] || answer.question_id)
