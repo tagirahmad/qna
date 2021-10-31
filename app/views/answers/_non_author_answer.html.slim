@@ -1,0 +1,33 @@
+= content_tag(:div, id: "answer-#{answer.id}", class: 'answer')
+  p = answer.title
+
+  - if answer.best_answer? 
+      p = 'It is the best answer!'
+  
+  - if answer.files.attached?
+    br
+    - answer.files.each do |file|
+      div id="file-#{file.id}"
+        = link_to file.filename.to_s, url_for(file)
+  
+  .links
+    - unless answer.links.empty?
+        p Links
+        ul
+          - answer.links.each do |link|
+            div id="link-#{link.id}"
+              li
+                = link_to link.name, link.url
+
+  .votes
+    = render 'votes/vote', resource: answer
+
+  = form_with model: answer, local: false, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
+    = f.label :title, 'Answer title'
+    = f.text_area :title
+    = f.label :files
+    = f.file_field :files, multiple: true
+    = render 'links/form', form: f
+
+    = f.submit 'Save'
+
