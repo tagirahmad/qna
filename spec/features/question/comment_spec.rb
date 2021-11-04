@@ -5,7 +5,6 @@ require 'rails_helper'
 feature 'User can add a comment to answer' do
   given(:user)      { create :user }
   given!(:question) { create :question }
-  given!(:answer)   { create :answer, question: question }
 
   describe 'Authenticated user' do
     before do
@@ -14,14 +13,10 @@ feature 'User can add a comment to answer' do
     end
 
     describe 'adds a comment', js: true do
-      before do
-        within '.answers' do
-          click_on 'Add a comment'
-        end
-      end
+      before { click_on 'Add a comment' }
 
       scenario 'with valid attributes' do
-        within ".answers #comment-answer-#{answer.id}" do
+        within ".question #comment-question-#{question.id}" do
           fill_in 'Comment body', with: 'My super comment'
           click_on 'Save'
         end
@@ -30,7 +25,7 @@ feature 'User can add a comment to answer' do
       end
 
       scenario 'with invalid attributes' do
-        within "#comment-answer-#{answer.id}" do
+        within "#comment-question-#{question.id}" do
           fill_in 'Comment body', with: ''
           click_on 'Save'
         end
@@ -43,11 +38,9 @@ feature 'User can add a comment to answer' do
   scenario 'Unauthenticated', js: true do
     visit question_path question
 
-    within '.answers' do
-      click_on 'Add a comment'
-    end
+    click_on 'Add a comment'
 
-    within "#comment-answer-#{answer.id}" do
+    within "#comment-question-#{question.id}" do
       fill_in 'Comment body', with: ''
       click_on 'Save'
     end
@@ -60,9 +53,7 @@ feature 'User can add a comment to answer' do
       using_session 'user' do
         login user
         visit question_path question
-        within '.answers' do
-          click_on 'Add a comment'
-        end
+        click_on 'Add a comment'
       end
 
       using_session 'guest' do
@@ -70,7 +61,7 @@ feature 'User can add a comment to answer' do
       end
 
       using_session 'user' do
-        within ".answers #comment-answer-#{answer.id}" do
+        within ".question #comment-question-#{question.id}" do
           fill_in 'Comment body', with: 'My super comment'
           click_on 'Save'
         end
@@ -84,3 +75,4 @@ feature 'User can add a comment to answer' do
     end
   end
 end
+

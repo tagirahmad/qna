@@ -29,8 +29,6 @@
               - if current_user&.author_of?(link.linkable)
                 = link_to 'Delete', link_path(link), method: :delete, remote: true
 
-  .comment-errors
-
   .comments answer-id=answer.id
     - if answer.comments.any?
       p Comments:

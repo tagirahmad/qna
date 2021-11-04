@@ -37,12 +37,13 @@
   .comments
     - if question.comments.any?
       p Comments:
-      ul
-        - question.comments.each do |comment|
-          div id="comment-#{comment.id}"
-            li
-              p = comment.body
+      = render question.comments
 
+  p = link_to 'Add a comment', '#', class: 'add-comment-question', data: { question_id: question.id }
+
+  = form_with model: [question, Comment.new], local: false, class: 'hidden', html: { id: "comment-question-#{question.id}" } do |f|
+    = render 'comments/form', form: f
+    = f.submit 'Save'
 
   = render 'votes/vote', resource: question
 

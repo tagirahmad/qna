@@ -10,7 +10,7 @@ consumer.subscriptions.create({ channel: "CommentsChannel", question_id: gon.que
 
         if (data.current_user_id == null || gon.current_user_id != data.current_user_id) {
             if (type === 'question') {
-                // $('.question-comments-list').append(data.partial);
+                $(`.question .comments`).append(data.partial);
             } else {
                 $(`.comments[answer-id=${id}]`).append(data.partial);
             }
