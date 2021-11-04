@@ -12,15 +12,24 @@
   
   .links
     - unless answer.links.empty?
-        p Links
-        ul
-          - answer.links.each do |link|
-            div id="link-#{link.id}"
-              li
-                = link_to link.name, link.url
+      p Links
+      ul
+        - answer.links.each do |link|
+          div id="link-#{link.id}"
+            li
+              = link_to link.name, link.url
+
+  .comment-errors
+
+  .comments answer-id=answer.id
+    - if answer.comments.any?
+      p Comments:
+      = render answer.comments
 
   .votes
     = render 'votes/vote', resource: answer
+
+  p = link_to 'Add a comment', '#', id: "answer-comment-#{answer.id}", class: 'add-comment-answer', data: { answer_id: answer.id }
 
   = form_with model: answer, local: false, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
     = f.label :title, 'Answer title'

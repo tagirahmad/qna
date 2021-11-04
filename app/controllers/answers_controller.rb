@@ -2,6 +2,7 @@
 
 class AnswersController < ApplicationController
   before_action :authenticate_user!
+  before_action :answer
   after_action :publish_answer, only: %i[create]
 
   include Voted
@@ -50,7 +51,7 @@ class AnswersController < ApplicationController
       "questions/#{params[:question_id]}/answers",
       {
         partial: ApplicationController.render(
-          partial: 'answers/non_author_answer', 
+          partial: 'answers/non_author_answer',
           locals: { answer: @answer }
         ),
         current_user_id: current_user.id
