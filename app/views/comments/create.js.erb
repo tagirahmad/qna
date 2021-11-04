@@ -1,0 +1,9 @@
+<% if @comment.persisted? %>
+  $('#<%= @comment.commentable_type.downcase %>-<%= @comment.commentable_id %> .comments').append('<%= j render @comment %>');
+  $('.new-answer #answer_title').val('');
+  $('#comment-answer-<%= @comment.commentable_id %> #comment_comments_body').val('');
+  $('.flash').html('<%= j render 'shared/flash_messages' %>');
+<% else %>
+  $('.comment-errors').html('<%= render 'shared/errors', resource: @comment %>');
+  $('.flash').html('<%= j render 'shared/flash_messages' %>');
+<% end %>

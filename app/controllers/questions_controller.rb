@@ -2,7 +2,7 @@
 
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
-  after_action :publish_question, only: %i[create]
+  after_action  :publish_question,   only:   %i[create]
 
   include Voted
 
@@ -15,6 +15,7 @@ class QuestionsController < ApplicationController
     @best_answer = question.best_answer
     @other_answers = question.answers.where.not(id: question.best_answer_id)
     @answer.links.new
+    # @comment = @answer.comments.new
 
     gon.question_id = question.id
     gon.current_user_id = current_user&.id
