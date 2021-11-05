@@ -31,7 +31,7 @@ class CommentsController < ApplicationController
     return if @comment.errors.any?
 
     ActionCable.server.broadcast(
-      "#{channel.id}/comments", {
+      "questions/#{channel.id}", {
         partial: ApplicationController.render(partial: 'comments/comment', locals: { comment: @comment }),
         comment: @comment,
         current_user_id: current_user.id
