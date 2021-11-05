@@ -36,7 +36,9 @@ RSpec.describe CommentsController, type: :controller do
 
       context 'with invalid attributes' do
         subject do
-          post :create, params: { question_id: question.id, comment: { comments: attributes_for(:comment, :invalid) }, format: :js }
+          post :create,
+               params: { question_id: question.id, comment: { comments: attributes_for(:comment, :invalid) },
+                         format: :js }
         end
 
         it 'not save answer in database' do
