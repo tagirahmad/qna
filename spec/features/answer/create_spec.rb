@@ -46,9 +46,32 @@ feature 'User can add answer to particular question', "
     end
   end
 
+  context 'multiple sessions' do
+    scenario 'answer appears on another user\'s page', js: true do
+      using_session 'user' do
+        login user
+        visit question_path question
+      end
+
+      using_session 'guest' do
+        visit question_path question
+      end
+
+      using_session 'user' do
+        fill_in 'Answer title', with: 'Test answer title'
+        click_on 'Answer to question'
+        expect(page).to have_content 'Test answer title'
+      end
+
+      using_session 'guest' do
+        expect(page).to have_content 'Test answer title'
+      end
+    end
+  end
+
   describe 'Unauthenticated user makes an answer', js: true do
     scenario 'can not add an answer' do
-      visit question_path(question)
+      visit question_path question
 
       fill_in 'Answer title', with: 'Test answer title'
       click_on 'Answer to question'

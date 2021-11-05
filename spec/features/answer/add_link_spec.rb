@@ -5,10 +5,10 @@ require 'rails_helper'
 feature 'User can add links to answer', '
   In order to provide aditional info to answer
 ' do
-  given(:user)	{ create :user }
+  given(:user)	      { create :user }
   given(:second_user) { create :user }
   given(:question)		{ create :question }
-  given!(:answer)	{ create :answer, question: question, user: user }
+  given!(:answer)	    { create :answer, question: question, user: user }
   given(:gist_url)		{ 'https://gist.github.com/tagirahmad/62598000f63a19949cbfeb39793a3c29' }
   given(:gist_url2)   { 'https://google.com' }
   given(:invalid_url) { 'google' }

@@ -9,7 +9,7 @@ import * as ActiveStorage from "@rails/activestorage"
 import "channels"
 import "jquery"
 import "@nathanvda/cocoon"
-
+import { createConsumer } from '@rails/actioncable'
 import GistClient from 'gist-client'
 
 
@@ -18,3 +18,8 @@ window.gistClient = new GistClient()
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
+
+window.App = window.App || {};
+window.App.cable = createConsumer();
+
+

@@ -1,22 +1,14 @@
 = content_tag(:div, id: "answer-#{answer.id}", class: 'answer')
   p = answer.title
 
-  - if user_signed_in? && current_user&.author_of?(answer)
-    p = link_to 'Edit', '#', id: "answer-edit-#{answer.id}", class: 'edit-answer-link', data: { answer_id: answer.id }
-
   - if answer.best_answer? 
-    p = 'It is the best answer!'
-  - else
-    - if current_user&.author_of?(question)
-      = link_to 'Mark as best', mark_as_best_answer_path(answer), method: :patch, remote: true
+      p = 'It is the best answer!'
   
   - if answer.files.attached?
     br
     - answer.files.each do |file|
       div id="file-#{file.id}"
         = link_to file.filename.to_s, url_for(file)
-        - if current_user&.author_of?(answer)
-          = link_to 'Delete', attachment_path(file), method: :delete, local: false, remote: true
   
   .links
     - unless answer.links.empty?
@@ -26,8 +18,8 @@
           div id="link-#{link.id}"
             li
               = link_to link.name, link.url
-              - if current_user&.author_of?(link.linkable)
-                = link_to 'Delete', link_path(link), method: :delete, remote: true
+
+  .comment-errors
 
   .comments answer-id=answer.id
     - if answer.comments.any?
@@ -39,10 +31,6 @@
 
   p = link_to 'Add a comment', '#', id: "answer-comment-#{answer.id}", class: 'add-comment-answer', data: { answer_id: answer.id }
 
-  = form_with model: [answer, Comment.new], local: false, class: 'hidden', html: { id: "comment-answer-#{answer.id}" } do |f|
-    = render 'comments/form', form: f
-    = f.submit 'Save'
-
   = form_with model: answer, local: false, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
     = f.label :title, 'Answer title'
     = f.text_area :title
@@ -52,5 +40,3 @@
 
     = f.submit 'Save'
 
-  - if current_user&.author_of?(answer)
-    p id="answer-delete-#{answer.id}" = link_to 'Delete', answer_path(answer), method: :delete, remote: true

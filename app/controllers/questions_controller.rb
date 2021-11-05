@@ -2,6 +2,7 @@
 
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
+  after_action  :publish_question,   only:   %i[create]
 
   include Voted
 
@@ -14,6 +15,10 @@ class QuestionsController < ApplicationController
     @best_answer = question.best_answer
     @other_answers = question.answers.where.not(id: question.best_answer_id)
     @answer.links.new
+    # @comment = @answer.comments.new
+
+    gon.question_id = question.id
+    gon.current_user_id = current_user&.id
   end
 
   def new
@@ -59,6 +64,20 @@ class QuestionsController < ApplicationController
   end
 
   helper_method :question
+
+  def publish_question
+    return if @question.errors.any?
+    ActionCable.server.broadcast(
+      'questions',
+      {
+        partial: ApplicationController.render(
+          partial: 'questions/list_item',
+          locals: { question: @question }
+        ),
+        question: @question
+      }
+    )
+  end
 
   def question_params
     params.require(:question).permit(:title, :body, files: [], links_attributes: %i[name url id],
