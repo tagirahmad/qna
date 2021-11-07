@@ -75,4 +75,3 @@ feature 'User can add a comment to answer' do
     end
   end
 end
-

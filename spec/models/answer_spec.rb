@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe Answer, type: :model do
   it_behaves_like 'votable'
   it_behaves_like 'commentable'
-  
+
   it { is_expected.to have_many(:links).dependent :destroy }
 
   it { is_expected.to belong_to :question }
