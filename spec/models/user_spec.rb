@@ -5,6 +5,7 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   it { is_expected.to have_many :questions }
   it { is_expected.to have_many :answers }
+  it { is_expected.to have_many(:authorizations).dependent :destroy }
   it { is_expected.to have_many(:rewards).dependent :destroy }
   it { is_expected.to have_many(:votes).dependent :destroy }
   it { is_expected.to have_many(:comments).dependent :destroy }
@@ -39,6 +40,16 @@ RSpec.describe User, type: :model do
       it 'user is not the author of the answer' do
         expect(second_user).not_to be_author_of(user_answer)
       end
+    end
+  end
+
+  describe '.find_for_oauth' do
+    let(:auth)    { OmniAuth::AuthHash.new(provider: 'facebook', uid: '123456') }
+    let(:service) { instance_double('FindForOauth') }
+
+    it 'calls FindForOauth' do
+      allow(FindForOauth).to receive(:new).with(auth).and_return(service)
+      allow(service).to receive(:call)
     end
   end
 end
