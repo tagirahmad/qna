@@ -7,7 +7,6 @@ feature 'User can sign in', "
   As an unauthenticated user
   I'd like to be able to sign in
 " do
-
   describe 'With devise' do
     given(:user) { create :user }
 

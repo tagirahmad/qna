@@ -12,7 +12,7 @@ class User < ApplicationRecord
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
-         :omniauthable, omniauth_providers: [:github, :google_oauth2]
+         :omniauthable, omniauth_providers: %i[github google_oauth2]
 
   def author_of?(entity)
     entity.user_id == id
