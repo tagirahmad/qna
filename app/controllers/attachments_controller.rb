@@ -3,7 +3,7 @@
 class AttachmentsController < ApplicationController
   before_action :authenticate_user!
 
-  authorize_resource
+  authorize_resource class: ActiveStorage::Attachment
 
   def destroy
     if current_user.author_of?(attachment.record)
