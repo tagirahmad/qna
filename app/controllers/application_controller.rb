@@ -1,9 +1,16 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
+  respond_to :html, :json, :js
+  
   rescue_from CanCan::AccessDenied do |exception|
-    redirect_to root_url, alert: exception.message
+    respond_to do |format|
+      format.html { redirect_to root_url, alert: exception.message }
+      format.json { render json: { response: exception.message }, status: 403 }
+      format.js   { render json: { response: exception.message }, status: 403 }
+    end
   end
 
-  check_authorization unless: :devise_controller?
+ # check_authorization unless: :devise_controller?
 end
+

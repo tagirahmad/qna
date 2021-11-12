@@ -10,9 +10,11 @@
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'utilities/state_listener' %>
   </head>
 
   <body>
+      <div class='authorization_errors'></div>
       <%= render 'shared/flash_messages' %>
       <%= render 'shared/header' %>
     <%= yield %>
