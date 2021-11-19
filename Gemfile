@@ -9,6 +9,7 @@ gem 'aws-sdk-s3', '~> 1', require: false
 gem 'bootsnap', '>= 1.4.4', require: false
 gem 'cocoon'
 gem 'devise'
+gem 'doorkeeper'
 gem 'dotenv-rails'
 gem 'gon', '~> 6.4'
 gem 'jbuilder', '~> 2.7'
