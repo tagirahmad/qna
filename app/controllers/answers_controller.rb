@@ -7,6 +7,8 @@ class AnswersController < ApplicationController
 
   include Voted
 
+  authorize_resource
+
   def mark_as_best
     @old_best_answer = question.best_answer
     answer.mark_as_best if current_user.author_of?(answer.question)
@@ -49,8 +51,7 @@ class AnswersController < ApplicationController
     return if @answer.errors.any?
 
     ActionCable.server.broadcast(
-      "questions/#{params[:question_id]}/answers",
-      {
+      "questions/#{params[:question_id]}/answers", {
         partial: ApplicationController.render(
           partial: 'answers/non_author_answer',
           locals: { answer: @answer }
