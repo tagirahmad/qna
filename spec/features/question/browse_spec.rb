@@ -12,7 +12,7 @@ feature 'User can browse questions' do
 
   describe 'if there is no any questions' do
     scenario 'look through questions' do
-      expect(page).to have_content 'Ask question'
+      expect(page).to have_content 'My title 1'
     end
   end
 

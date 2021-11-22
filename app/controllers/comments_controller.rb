@@ -5,13 +5,13 @@ class CommentsController < ApplicationController
   before_action :find_commentable, only: :create
   after_action :publish_comment, only: :create
 
+  authorize_resource
+
   def create
     @comment = @commentable.comments.new(comment_params.merge(user: current_user))
 
     flash[:alert] = 'The comment was created successfully.' if @comment.save
   end
-
-  def check_authenticated; end
 
   private
 

@@ -455,7 +455,8 @@ CREATE TABLE public.users (
     encrypted_password character varying DEFAULT ''::character varying NOT NULL,
     reset_password_token character varying,
     reset_password_sent_at timestamp without time zone,
-    remember_created_at timestamp without time zone
+    remember_created_at timestamp without time zone,
+    admin boolean
 );
 
 
