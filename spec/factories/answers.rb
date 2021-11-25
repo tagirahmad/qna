@@ -10,4 +10,10 @@ FactoryBot.define do
   trait :invalid_answer do
     title { nil }
   end
+
+  trait :with_file do
+    after :create do |answer|
+      answer.files.attach(io: File.open("#{Rails.root}/spec/rails_helper.rb"), filename: 'rails_helper.rb')
+    end
+  end
 end
