@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe 'Profiles API', type: :request do
@@ -11,8 +12,11 @@ describe 'Profiles API', type: :request do
     end
 
     context 'authorized' do
-      let(:me) { create :user }
-      let(:access_token) { create :access_token, resource_owner_id: me.id }
+      let(:entity)          { create :user }
+      let(:access_token)    { create :access_token, resource_owner_id: entity.id }
+      let(:server_response) { json['user'] }
+      let(:public_fields)   { %w[id email admin created_at updated_at] }
+      let(:private_fields)  { %w[password encrypted_password] }
 
       before do
         get api_path, params: { access_token: access_token.token }, headers: headers
@@ -20,17 +24,7 @@ describe 'Profiles API', type: :request do
 
       it_behaves_like 'API successful status'
 
-      it 'returns all public fields' do
-        %w[id email admin created_at updated_at].each do |attr|
-          expect(json['user'][attr]).to eq me.send(attr).as_json
-        end
-      end
-
-      it 'does not return private fields' do
-        %w[password encrypted_password].each do |attr|
-          expect(json['user']).not_to have_key attr
-        end
-      end
+      it_behaves_like 'API fields'
     end
   end
 
@@ -44,7 +38,10 @@ describe 'Profiles API', type: :request do
     context 'authorized' do
       let!(:me)           { create :user }
       let!(:second_user)  { create :user }
+      let(:entity)              { second_user }
       let(:access_token)        { create :access_token, resource_owner_id: me.id }
+      let(:public_fields)       { %w[id email admin created_at updated_at] }
+      let(:server_response)     { json['users'].first }
 
       before do
         get api_path, params: { access_token: access_token.token }, headers: headers
@@ -52,14 +49,10 @@ describe 'Profiles API', type: :request do
 
       it_behaves_like 'API successful status'
 
+      it_behaves_like 'API fields'
+
       it 'returns list of users except current' do
         expect(json['users'].size).to eq User.where.not(id: me.id).size
-      end
-
-      it 'returns all public fields' do
-        %w[id email admin created_at updated_at].each do |attr|
-          expect(json['users'].first[attr]).to eq second_user.send(attr).as_json
-        end
       end
     end
   end

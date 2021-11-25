@@ -30,7 +30,7 @@ describe 'Questions API', type: :request do
 
       it_behaves_like 'API list of entities'
       
-      it_behaves_like 'API public fields'
+      it_behaves_like 'API fields'
 
       it 'contains user object' do
         expect(server_response['user']['id']).to eq question.user.id
@@ -49,7 +49,7 @@ describe 'Questions API', type: :request do
 
         it_behaves_like 'API list of entities'
 
-        it_behaves_like 'API public fields'
+        it_behaves_like 'API fields'
       end
     end
   end
@@ -75,7 +75,7 @@ describe 'Questions API', type: :request do
         get api_path, params: { access_token: access_token.token }, headers: headers
       end
 
-      it_behaves_like 'API public fields'
+      it_behaves_like 'API fields'
 
       it 'has file' do
         expect(server_response['files'].first).to include entity.files.blobs.first.filename.to_s

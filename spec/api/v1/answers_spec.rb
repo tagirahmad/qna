@@ -30,7 +30,7 @@ describe 'Answers API', type: :request do
 
       it_behaves_like 'API list of entities'
 
-      it_behaves_like 'API public fields'
+      it_behaves_like 'API fields'
 
       it 'has file' do
         expect(server_response['files'].first).to include answer.files.blobs.first.filename.to_s
@@ -63,7 +63,7 @@ describe 'Answers API', type: :request do
         get api_path, params: { access_token: access_token.token }, headers: headers
       end
 
-      it_behaves_like 'API public fields'
+      it_behaves_like 'API fields'
 
       it 'has file' do
         expect(server_response['files'].first).to include answer.files.blobs.first.filename.to_s
