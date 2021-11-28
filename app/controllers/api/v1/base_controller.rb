@@ -2,6 +2,7 @@ module Api
   module V1
     class BaseController < ApplicationController
       before_action :doorkeeper_authorize!
+      protect_from_forgery with: :null_session
 
       private
 
