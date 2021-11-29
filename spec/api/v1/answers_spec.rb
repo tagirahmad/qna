@@ -2,8 +2,9 @@ require 'rails_helper'
 
 describe 'Answers API', type: :request do
   let(:access_token) { create :access_token }
-  let(:headers) { { 'CONTENT-TYPE' => 'application/json', 'ACCEPT' => 'application/json' } }
-  let(:question) { create :question }
+  let(:headers)      { { 'ACCEPT' => 'application/json' } }
+  let(:question)     { create :question }
+  let(:access_token) { create :access_token }
 
   describe 'GET /api/v1/questions/:id/answers' do
     let(:api_path) { "/api/v1/questions/#{question.id}/answers" }
@@ -68,6 +69,14 @@ describe 'Answers API', type: :request do
       it 'has file' do
         expect(server_response['files'].first).to include answer.files.blobs.first.filename.to_s
       end
+    end
+  end
+
+  describe 'POST /api/v1/questions/:id/answers/' do
+    let(:api_path) { "/api/v1/questions/#{question.id}/answers/" }
+
+    it_behaves_like 'API Authorizable' do
+      let(:method) { :post }
     end
   end
 end

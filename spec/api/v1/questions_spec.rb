@@ -122,7 +122,7 @@ describe 'Questions API', type: :request do
     end
   end
 
-  describe 'POST /api/v1/questions/:id' do
+  describe 'PATCH /api/v1/questions/:id' do
     let(:question) { create :question, user_id: access_token.resource_owner_id }
     let(:api_path) { "/api/v1/questions/#{question.id}" }
 

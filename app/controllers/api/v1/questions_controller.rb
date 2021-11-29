@@ -3,8 +3,6 @@ module Api
     class QuestionsController < BaseController
       before_action :find_question, only: %i[update destroy]
 
-      # authorize_resource
-
       def index
         render json: Question.all
       end
