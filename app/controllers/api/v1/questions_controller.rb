@@ -1,18 +1,20 @@
 module Api
   module V1
     class QuestionsController < BaseController
-      before_action :find_question, only: %i[update destroy]
+      before_action :find_question, except: :create
+
+      authorize_resource
 
       def index
         render json: Question.all
       end
 
       def show
-        render json: Question.with_attached_files.find(params[:id]), serializer: QuestionSerializer
+        render json: @question, serializer: QuestionSerializer
       end
 
       def create
-        question = Question.new(question_params.merge(user: current_resource_owner))
+        question = Question.new(question_params.merge(user: current_user))
 
         if question.save
           render json: question
@@ -41,7 +43,7 @@ module Api
       end
 
       def find_question
-        @question = Question.find(params[:id])
+        @question ||= params[:id] ? Question.with_attached_files.find(params[:id]) : Question.new
       end
     end
   end

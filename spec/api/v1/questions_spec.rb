@@ -3,8 +3,9 @@
 require 'rails_helper'
 
 describe 'Questions API', type: :request do
-  let(:headers) { { 'ACCEPT' => 'application/json' } }
-  let(:access_token) { create :access_token }
+  let(:headers)      { { 'ACCEPT' => 'application/json' } }
+  let(:user)         { create :user }
+  let(:access_token) { create :access_token, resource_owner_id: user.id }
 
   describe 'GET /api/v1/questions' do
     let(:api_path) { '/api/v1/questions' }
@@ -95,7 +96,7 @@ describe 'Questions API', type: :request do
       context 'with valid attrs' do
         before do
           post api_path, params: { access_token: access_token.token,
-                                   question: { title: 'Title', body: 'Body' } }, headers: headers
+                                   question: attributes_for(:question) }, headers: headers
         end
 
         it_behaves_like 'API successful status'
@@ -174,3 +175,4 @@ describe 'Questions API', type: :request do
     it_behaves_like 'API successful status', :delete_question
   end
 end
+

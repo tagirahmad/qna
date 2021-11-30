@@ -28,8 +28,8 @@ Rails.application.routes.draw do
         get :me, on: :collection
       end
 
-      resources :questions do
-        resources :answers
+      resources :questions, except: %i[new edit] do
+        resources :answers, except: %i[new edit]
       end
     end
   end
