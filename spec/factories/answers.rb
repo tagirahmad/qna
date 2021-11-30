@@ -7,8 +7,12 @@ FactoryBot.define do
     question
   end
 
-  trait :invalid_answer do
+  trait :invalid do
     title { nil }
+  end
+
+  trait :updated do
+    title { 'My updated title' }
   end
 
   trait :with_file do

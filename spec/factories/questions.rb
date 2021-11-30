@@ -10,6 +10,11 @@ FactoryBot.define do
       title { nil }
     end
 
+    trait :updated do
+      title { 'My updated title' }
+      body  { 'My updated body' }
+    end
+
     trait :with_file do
       after :create do |question|
         question.files.attach(io: File.open("#{Rails.root}/spec/rails_helper.rb"), filename: 'rails_helper.rb')

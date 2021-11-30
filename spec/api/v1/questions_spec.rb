@@ -31,7 +31,7 @@ describe 'Questions API', type: :request do
 
       it_behaves_like 'API successful status'
 
-      it_behaves_like 'API list of entities'
+      it_behaves_like 'API list of resources'
 
       it_behaves_like 'API fields'
 
@@ -50,7 +50,7 @@ describe 'Questions API', type: :request do
         let(:count) { 3 }
         let(:public_fields) { %w[id title user_id created_at updated_at] }
 
-        it_behaves_like 'API list of entities'
+        it_behaves_like 'API list of resources'
 
         it_behaves_like 'API fields'
       end
@@ -92,34 +92,8 @@ describe 'Questions API', type: :request do
       let(:method) { :post }
     end
 
-    context 'authorized' do
-      context 'with valid attrs' do
-        before do
-          post api_path, params: { access_token: access_token.token,
-                                   question: attributes_for(:question) }, headers: headers
-        end
-
-        it_behaves_like 'API successful status'
-
-        it 'creates and returns new question' do
-          %w[id title body created_at updated_at].each do |attr|
-            expect(json['question'][attr].as_json).to eq Question.last.send(attr).as_json
-          end
-        end
-
-        it 'does not return array with errors' do
-          expect(json).not_to have_key 'errors'
-        end
-      end
-
-      context 'with invalid attrs' do
-        it 'returns response with validator errors' do
-          post api_path, params: { access_token: access_token.token, question: { title: '', body: '' } },
-               headers: headers
-
-          expect(json['errors']).to all(satisfy { |err| err.include? 'can\'t be blank' })
-        end
-      end
+    it_behaves_like 'API create resource', Question do
+      let(:public_fields) { %w[id title body created_at updated_at] }
     end
   end
 
@@ -127,52 +101,16 @@ describe 'Questions API', type: :request do
     let(:question) { create :question, user_id: access_token.resource_owner_id }
     let(:api_path) { "/api/v1/questions/#{question.id}" }
 
-    context 'with valid attrs' do
-      describe 'updates the question' do
-        before do
-          patch api_path,
-                params: { access_token: access_token.token, question: { title: 'Changed title', body: 'Changed body' } },
-                headers: headers
-        end
-
-        it 'updates title' do
-          expect(Question.find(question.id).title).to eq 'Changed title'
-        end
-
-        it 'updates body' do
-          expect(Question.find(question.id).body).to eq 'Changed body'
-        end
-      end
-    end
-
-    describe 'with invalid attrs' do
-      let(:try_to_update_answer) do
-        patch api_path,
-              params: { access_token: access_token.token, question: { title: '' } },
-              headers: headers
-      end
-
-      it 'does not update question' do
-        expect{ try_to_update_answer }.not_to change Question.find(question.id), :title
-      end
-
-      it 'returns response with validator errors' do
-        try_to_update_answer
-        expect(json['errors']).to all(satisfy { |err| err.include? 'can\'t be blank' })
-      end
+    it_behaves_like 'API update resource', Question do
+      let(:instance) { question }
     end
   end
 
   describe 'DELETE /api/v1/questions/:id' do
     let!(:question) { create :question, user_id: access_token.resource_owner_id }
     let(:api_path)        { "/api/v1/questions/#{question.id}" }
-    let(:delete_question) { delete api_path, params: { access_token: access_token.token }, headers: headers }
 
-    it 'deletes question' do
-      expect { delete_question }.to change(Question, :count).by(-1)
-    end
-
-    it_behaves_like 'API successful status', :delete_question
+    it_behaves_like 'API delete resource', Question
   end
 end
 

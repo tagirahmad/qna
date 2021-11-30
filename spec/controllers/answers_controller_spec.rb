@@ -32,7 +32,7 @@ RSpec.describe AnswersController, type: :controller do
       before { login user }
 
       let(:create_invalid_answer) do
-        post :create, params: { question_id: question.id, answer: attributes_for(:answer, :invalid_answer) },
+        post :create, params: { question_id: question.id, answer: attributes_for(:answer, :invalid) },
                       format: :js
       end
 
@@ -100,12 +100,12 @@ RSpec.describe AnswersController, type: :controller do
     context 'with invalid attributes' do
       it 'does not change answer attributes' do
         expect do
-          patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid_answer) }, format: :js
+          patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }, format: :js
         end.not_to change(answer, :title)
       end
 
       it 'renders update view' do
-        patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid_answer) }, format: :js
+        patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }, format: :js
         expect(response).to render_template :update
       end
     end

@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 describe 'Answers API', type: :request do
-  let(:access_token) { create :access_token }
   let(:headers)      { { 'ACCEPT' => 'application/json' } }
-  let(:question)     { create :question }
-  let(:access_token) { create :access_token }
+  let(:user)         { create :user }
+  let(:access_token) { create :access_token, resource_owner_id: user.id }
+  let(:question)     { create :question, user_id: access_token.resource_owner_id }
 
   describe 'GET /api/v1/questions/:id/answers' do
     let(:api_path) { "/api/v1/questions/#{question.id}/answers" }
@@ -29,7 +29,7 @@ describe 'Answers API', type: :request do
 
       it_behaves_like 'API successful status'
 
-      it_behaves_like 'API list of entities'
+      it_behaves_like 'API list of resources'
 
       it_behaves_like 'API fields'
 
@@ -78,5 +78,25 @@ describe 'Answers API', type: :request do
     it_behaves_like 'API Authorizable' do
       let(:method) { :post }
     end
+
+    it_behaves_like 'API create resource', Answer do
+      let(:public_fields) { %w[id title created_at updated_at] }
+    end
+  end
+
+  describe 'PATCH /api/v1/questions/:id/answers/:id' do
+    let(:answer)   { create :answer, question: question, user_id: access_token.resource_owner_id }
+    let(:api_path) { "/api/v1/questions/#{question.id}/answers/#{answer.id}" }
+
+    it_behaves_like 'API update resource', Answer do
+      let(:instance) { answer }
+    end
+  end
+
+  describe 'DELETE /api/v1/questions/:id/answers/:id' do
+    let!(:answer) { create :answer, question: question, user_id: access_token.resource_owner_id }
+    let(:api_path)      { "/api/v1/questions/#{question.id}/answers/#{answer.id}" }
+
+    it_behaves_like 'API delete resource', Answer
   end
 end
