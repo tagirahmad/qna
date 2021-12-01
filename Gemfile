@@ -5,15 +5,18 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.7.2'
 
+gem 'active_model_serializers', '~> 0.10.12'
 gem 'aws-sdk-s3', '~> 1', require: false
 gem 'bootsnap', '>= 1.4.4', require: false
 gem 'cancancan'
 gem 'cocoon'
 gem 'devise'
+gem 'doorkeeper'
 gem 'dotenv-rails'
 gem 'gon', '~> 6.4'
 gem 'jbuilder', '~> 2.7'
 gem 'jquery-rails'
+gem 'oj'
 gem 'omniauth'
 gem 'omniauth-github'
 gem 'omniauth-google-oauth2'

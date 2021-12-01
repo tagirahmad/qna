@@ -3,11 +3,16 @@
 FactoryBot.define do
   factory :question do
     sequence(:title) { |n| "My title #{n}" }
-    user
+    association :user, factory: :user
     body { 'MyText' }
 
     trait :invalid do
       title { nil }
+    end
+
+    trait :updated do
+      title { 'My updated title' }
+      body  { 'My updated body' }
     end
 
     trait :with_file do

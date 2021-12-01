@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  use_doorkeeper
   devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks' }
   
   concern :voteble do
@@ -18,6 +19,18 @@ Rails.application.routes.draw do
   resources :questions, concerns: %i[voteble commentable] do
     resources :answers, concerns: %i[voteble commentable], shallow: true, only: %i[create destroy update] do
       patch :mark_as_best, on: :member
+    end
+  end
+
+  namespace :api do
+    namespace :v1 do
+      resources :profiles, only: :index do
+        get :me, on: :collection
+      end
+
+      resources :questions, except: %i[new edit] do
+        resources :answers, except: %i[new edit]
+      end
     end
   end
 
