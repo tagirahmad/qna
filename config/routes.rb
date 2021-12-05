@@ -40,9 +40,10 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :attachments, only: :destroy
-  resources :links,       only: :destroy
-  resources :rewards,     only: :index
+  resources :attachments,   only: :destroy
+  resources :links,         only: :destroy
+  resources :rewards,       only: :index
+  resources :subscriptions, only: %i[create destroy]
 
   root to: 'questions#index'
 

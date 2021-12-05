@@ -32,6 +32,9 @@ class Ability
     can :update,  [Question, Answer, Comment], user_id: user.id
     can :destroy, [Question, Answer, Comment], user_id: user.id
 
+    can :create,  Subscription
+    can :destroy, Subscription, user_id: user.id
+
     can :mark_as_best, Answer, question: { user_id: user.id }
 
     can %i[vote_up vote_down unvote], [Question, Answer] do |resource|
