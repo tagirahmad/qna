@@ -21,6 +21,14 @@ class Question < ApplicationRecord
 
   after_create :create_subscription
 
+  def subscribed?(user)
+    subscriptions.exists?(user: user)
+  end
+
+  def find_user_subscription(user)
+    subscriptions.find_by(user: user)
+  end
+
   private
 
   def create_subscription

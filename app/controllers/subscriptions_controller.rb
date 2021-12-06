@@ -9,10 +9,12 @@ class SubscriptionsController < ApplicationController
 
   def create
     @subscribeable.subscriptions.create!(user_id: current_user.id)
+    flash.now[:notice] = "You have successfully subscribed to #{@subscribeable.type.downcase} updates"
   end
 
   def destroy
     @subscription.destroy
+    flash.now[:notice] = 'You have successfully unsubscribed'
   end
 
   private
