@@ -4,9 +4,10 @@ require 'rails_helper'
 
 RSpec.describe Question, type: :model do
   it_behaves_like 'votable'
+  it_behaves_like 'linkable'
   it_behaves_like 'commentable'
+  it_behaves_like 'subscribable'
 
-  it { is_expected.to have_many(:links).dependent :destroy }
   it { is_expected.to have_many(:answers).dependent :destroy }
   it { is_expected.to have_one(:reward).dependent :destroy }
 
@@ -18,5 +19,9 @@ RSpec.describe Question, type: :model do
 
   it 'has many attached files' do
     expect(described_class.new.files).to be_an_instance_of ActiveStorage::Attached::Many
+  end
+
+  it 'creates subscription after create question' do
+    expect { create :question }.to change(Subscription, :count).by 1
   end
 end

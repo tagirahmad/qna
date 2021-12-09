@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
+  authenticate :user, lambda { |u| u.admin? } do
+    mount Sidekiq::Web => '/sidekiq'
+  end
+
   use_doorkeeper
   devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks' }
   
@@ -34,9 +40,10 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :attachments, only: :destroy
-  resources :links,       only: :destroy
-  resources :rewards,     only: :index
+  resources :attachments,   only: :destroy
+  resources :links,         only: :destroy
+  resources :rewards,       only: :index
+  resources :subscriptions, only: %i[create destroy]
 
   root to: 'questions#index'
 

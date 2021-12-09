@@ -39,6 +39,9 @@
       p Comments:
       = render question.comments
 
+  .subscription
+    = render 'subscriptions/subscription'
+
   p = link_to 'Add a comment', '#', class: 'add-comment-question', data: { question_id: question.id }
 
   = form_with model: [question, Comment.new], local: false, class: 'hidden', html: { id: "comment-question-#{question.id}" } do |f|

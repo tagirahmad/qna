@@ -15,6 +15,8 @@ class Answer < ApplicationRecord
 
   validates :title, presence: true
 
+  after_create :notify_subscribers, if: :any_subscribers?
+
   def mark_as_best
     transaction do
       question.update(best_answer_id: id)
@@ -24,5 +26,15 @@ class Answer < ApplicationRecord
 
   def best_answer?
     question.best_answer_id == id
+  end
+
+  private
+
+  def notify_subscribers
+    NotificationJob.perform_later(self, question)
+  end
+
+  def any_subscribers?
+    question.subscriptions.exists?
   end
 end

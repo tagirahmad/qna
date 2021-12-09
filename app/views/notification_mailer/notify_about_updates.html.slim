@@ -1,0 +1,6 @@
+h1 "New #{@record.class.to_s.downcase} #{@record&.title} has been received!"
+br
+  - @record.respond_to?(:title)
+    p = @record.title
+  - @record.respond_to?(:body)
+    p = @record.body
