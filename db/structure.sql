@@ -118,7 +118,7 @@ ALTER SEQUENCE public.active_storage_variant_records_id_seq OWNED BY public.acti
 
 CREATE TABLE public.answers (
     id bigint NOT NULL,
-    title character varying,
+    title text,
     question_id bigint,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
@@ -1109,6 +1109,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20211106055524'),
 ('20211108171032'),
 ('20211115102155'),
-('20211204145043');
+('20211204145043'),
+('20211214115220');
 
 

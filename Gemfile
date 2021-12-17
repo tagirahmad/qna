@@ -16,6 +16,7 @@ gem 'dotenv-rails'
 gem 'gon', '~> 6.4'
 gem 'jbuilder', '~> 2.7'
 gem 'jquery-rails'
+gem 'mysql2', '~> 0.4.10', platform: :ruby
 gem 'oj'
 gem 'omniauth'
 gem 'omniauth-github'
@@ -28,6 +29,7 @@ gem 'sass-rails', '>= 6'
 gem 'sidekiq'
 gem 'sinatra', require: false
 gem 'slim-rails'
+gem 'thinking-sphinx', git: 'https://github.com/pat/thinking-sphinx.git', branch: 'develop'
 gem 'turbolinks', '~> 5'
 gem 'webpacker', '~> 5.0'
 gem 'whenever', require: false
@@ -49,6 +51,8 @@ end
 
 group :test do
   gem 'capybara', '>= 3.26'
+  gem 'database_cleaner-active_record'
+  gem 'database_cleaner-core'
   gem 'launchy'
   gem 'rails-controller-testing'
   gem 'selenium-webdriver'

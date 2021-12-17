@@ -132,3 +132,5 @@ modules.xml
 .idea/sonarlint
 
 dump.rdb
+config/*.sphinx.conf
+db/sphinx
