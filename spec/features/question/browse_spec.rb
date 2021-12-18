@@ -2,22 +2,22 @@
 
 require 'rails_helper'
 
-feature 'User can browse questions' do
-  given(:user) { create :user }
-  given!(:questions) { create_list :question, 3 }
+describe 'User can browse questions' do
+  let(:user) { create :user }
+  let!(:questions) { create_list :question, 3 }
 
-  background do
+  before do
     visit questions_path
   end
 
   describe 'if there is no any questions' do
-    scenario 'look through questions' do
+    it 'look through questions' do
       expect(page).to have_content 'My title 1'
     end
   end
 
   describe 'if few questions exist' do
-    scenario 'look through list of questions' do
+    it 'look through list of questions' do
       questions.each do |q|
         expect(page).to have_content q.title
       end

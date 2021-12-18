@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Api
   module V1
     class QuestionsController < BaseController
@@ -39,7 +41,7 @@ module Api
 
       def question_params
         params.require(:question).permit(:title, :body, links_attributes: %i[name url id],
-                                         reward_attributes: %i[name image])
+                                                        reward_attributes: %i[name image])
       end
 
       def find_question

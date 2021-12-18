@@ -2,14 +2,14 @@
 
 require 'rails_helper'
 
-feature 'User can delete links from  question' do
-  given(:user) { create :user }
-  given(:second_user) { create :user }
-  given(:question)    { create :question, user: user }
-  given!(:link)       { create :link, linkable: question }
+describe 'User can delete links from question' do
+  let(:user) { create :user }
+  let(:second_user) { create :user }
+  let(:question)    { create :question, user: user }
+  let!(:link)       { create :link, linkable: question }
 
   context 'Owner' do
-    scenario 'User deletes links when edit question', js: true do
+    it 'User deletes links when edit question', js: true do
       login user
 
       visit question_path question
@@ -23,7 +23,7 @@ feature 'User can delete links from  question' do
   end
 
   context 'Non-owner' do
-    scenario 'Can not delete link' do
+    it 'Can not delete link' do
       login second_user
 
       visit question_path question

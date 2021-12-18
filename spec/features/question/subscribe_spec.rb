@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-feature 'User subscribes to the question' do
+describe 'User subscribes to the question' do
   let(:user)     { create :user }
   let(:question) { create :question }
 

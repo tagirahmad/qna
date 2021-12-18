@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe 'Answers API', type: :request do
@@ -16,7 +18,7 @@ describe 'Answers API', type: :request do
     context 'authorized' do
       let(:second_question) { create :question }
       let(:count)           { 3 }
-      let!(:answers)  { create_list :answer, count, :with_file, question: question }
+      let!(:answers) { create_list :answer, count, :with_file, question: question }
       let(:list)            { json['answers'] }
       let(:answer)          { answers.first }
       let(:entity)          { answer }
@@ -50,7 +52,7 @@ describe 'Answers API', type: :request do
   describe 'GET /api/v1/questions/:id/answers/:id' do
     let(:answer)          { create :answer, :with_file, question: question }
     let(:entity)          { answer }
-    let!(:links)    { create_list :link, 2, linkable: answer }
+    let!(:links) { create_list :link, 2, linkable: answer }
     let(:api_path)        { "/api/v1/questions/#{question.id}/answers/#{answer.id}" }
     let(:server_response) { json['answer'] }
     let(:public_fields)   { %w[id title user_id created_at updated_at comments links] }
@@ -95,7 +97,7 @@ describe 'Answers API', type: :request do
 
   describe 'DELETE /api/v1/questions/:id/answers/:id' do
     let!(:answer) { create :answer, question: question, user_id: access_token.resource_owner_id }
-    let(:api_path)      { "/api/v1/questions/#{question.id}/answers/#{answer.id}" }
+    let(:api_path) { "/api/v1/questions/#{question.id}/answers/#{answer.id}" }
 
     it_behaves_like 'API delete resource', Answer
   end

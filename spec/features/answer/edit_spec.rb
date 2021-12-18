@@ -2,14 +2,14 @@
 
 require 'rails_helper'
 
-feature 'User can edit his answer' do
-  given!(:user)        { create :user }
-  given!(:second_user) { create :user }
-  given!(:question)    { create :question }
-  given!(:answer)      { create :answer, question: question, user: user }
-  given!(:link)        { create :link, linkable: answer }
+describe 'User can edit his answer' do
+  let!(:user)        { create :user }
+  let!(:second_user) { create :user }
+  let!(:question)    { create :question }
+  let!(:answer)      { create :answer, question: question, user: user }
+  let!(:link)        { create :link, linkable: answer }
 
-  scenario 'Unathenticated user can not edit answer' do
+  it 'Unathenticated user can not edit answer' do
     visit question_path(question)
 
     expect(page).not_to have_link 'Edit'
@@ -33,12 +33,12 @@ feature 'User can edit his answer' do
           end
         end
 
-        scenario 'adds files while edits his answer' do
+        it 'adds files while edits his answer' do
           expect(page).to have_link 'rails_helper.rb'
           expect(page).to have_link 'spec_helper.rb'
         end
 
-        scenario 'deletes added files' do
+        it 'deletes added files' do
           sleep(1)
           within "#file-#{answer.files.first.id}" do
             click_on 'Delete'
@@ -49,7 +49,7 @@ feature 'User can edit his answer' do
       end
 
       describe 'edits links' do
-        scenario 'press Edit to change url name', js: true do
+        it 'press Edit to change url name', js: true do
           within '.answers' do
             click_on 'Edit'
 
@@ -63,7 +63,7 @@ feature 'User can edit his answer' do
         end
       end
 
-      scenario 'edits his answer' do
+      it 'edits his answer' do
         within '.answers' do
           click_on 'Edit', id: "answer-edit-#{answer.id}"
 
@@ -77,7 +77,7 @@ feature 'User can edit his answer' do
       end
     end
 
-    scenario 'edits his answer with errors', js: true do
+    it 'edits his answer with errors', js: true do
       login user
 
       visit question_path(question)
@@ -94,7 +94,7 @@ feature 'User can edit his answer' do
       expect { answer }.not_to change(answer, :title)
     end
 
-    scenario "tries to edit other user's answer" do
+    it "tries to edit other user's answer" do
       login second_user
 
       visit question_path(question)

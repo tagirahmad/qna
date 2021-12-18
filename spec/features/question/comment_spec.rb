@@ -2,9 +2,9 @@
 
 require 'rails_helper'
 
-feature 'User can add a comment to answer' do
-  given(:user)      { create :user }
-  given!(:question) { create :question }
+describe 'User can add a comment to answer' do
+  let(:user)      { create :user }
+  let!(:question) { create :question }
 
   describe 'Authenticated user' do
     before do
@@ -15,7 +15,7 @@ feature 'User can add a comment to answer' do
     describe 'adds a comment', js: true do
       before { click_on 'Add a comment' }
 
-      scenario 'with valid attributes' do
+      it 'with valid attributes' do
         within ".question #comment-question-#{question.id}" do
           fill_in 'Comment body', with: 'My super comment'
           click_on 'Save'
@@ -24,7 +24,7 @@ feature 'User can add a comment to answer' do
         expect(page).to have_content 'My super comment'
       end
 
-      scenario 'with invalid attributes' do
+      it 'with invalid attributes' do
         within "#comment-question-#{question.id}" do
           fill_in 'Comment body', with: ''
           click_on 'Save'
@@ -35,7 +35,7 @@ feature 'User can add a comment to answer' do
     end
   end
 
-  scenario 'Unauthenticated', js: true do
+  it 'Unauthenticated', js: true do
     visit question_path question
 
     click_on 'Add a comment'
@@ -49,7 +49,7 @@ feature 'User can add a comment to answer' do
   end
 
   context 'multiple sessions', js: true do
-    scenario 'comment appears on another user\'s page', js: true do
+    it 'comment appears on another user\'s page', js: true do
       using_session 'user' do
         login user
         visit question_path question

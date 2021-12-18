@@ -2,12 +2,12 @@
 
 require 'rails_helper'
 
-feature 'User can choose best answer' do
-  given(:user)           { create :user }
-  given(:second_user)    { create :user }
-  given(:question)       { create :question, user: user }
-  given!(:answer)        { create :answer, title: 'first answer', question: question, user: second_user }
-  given!(:second_answer) { create :answer, title: 'second answer', question: question, user: user }
+describe 'User can choose best answer' do
+  let(:user)           { create :user }
+  let(:second_user)    { create :user }
+  let(:question)       { create :question, user: user }
+  let!(:answer)        { create :answer, title: 'first answer', question: question, user: second_user }
+  let!(:second_answer) { create :answer, title: 'second answer', question: question, user: user }
 
   describe 'Authenticated user' do
     describe 'only author can choose best answer' do
@@ -28,7 +28,7 @@ feature 'User can choose best answer' do
       end
     end
 
-    scenario 'not an author can not choose best answer' do
+    it 'not an author can not choose best answer' do
       login second_user
       visit question_path(question)
 
@@ -37,14 +37,14 @@ feature 'User can choose best answer' do
   end
 
   describe 'Unauthenticated user' do
-    scenario 'can not choose best answer' do
+    it 'can not choose best answer' do
       visit question_path(question)
 
       expect(page).not_to have_link 'Mark as best'
     end
   end
 
-  scenario 'Best answer should be the first in the list', js: true do
+  it 'Best answer should be the first in the list', js: true do
     login user
 
     visit question_path(question)

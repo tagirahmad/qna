@@ -2,11 +2,12 @@
 
 require 'rails_helper'
 
-feature 'User can sign out' do
-  given(:user) { create :user }
-  background { login user }
+describe 'User can sign out' do
+  let(:user) { create :user }
 
-  scenario 'log out' do
+  before { login user }
+
+  it 'log out' do
     click_on 'Log out'
     # save_and_open_page
     expect(page).to have_content 'Signed out successfully.'

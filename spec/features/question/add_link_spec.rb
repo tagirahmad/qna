@@ -2,19 +2,19 @@
 
 require 'rails_helper'
 
-feature 'User can add links to question', '
+describe 'User can add links to question', '
   In order to provide aditional info to question
 ' do
-  given(:user)        { create :user }
-  given(:second_user) { create :user }
-  given(:gist_url)    { 'https://gist.github.com/tagirahmad/62598000f63a19949cbfeb39793a3c29' }
-  given(:gist_url2)   { 'https://google.com' }
-  given(:question)    { create :question, user: user }
+  let(:user)        { create :user }
+  let(:second_user) { create :user }
+  let(:gist_url)    { 'https://gist.github.com/tagirahmad/62598000f63a19949cbfeb39793a3c29' }
+  let(:gist_url2)   { 'https://google.com' }
+  let(:question)    { create :question, user: user }
 
   context 'Owner' do
     before { login user }
 
-    scenario 'User adds links when asks question', js: true do
+    it 'User adds links when asks question', js: true do
       visit new_question_path
 
       fill_in 'Title',	with: 'Test question'
@@ -36,7 +36,7 @@ feature 'User can add links to question', '
       expect(page).to have_link 'My gist2', href: gist_url2
     end
 
-    scenario 'User-owner adds links when edits question', js: true do
+    it 'User-owner adds links when edits question', js: true do
       visit question_path question
 
       within '.question' do
@@ -53,7 +53,7 @@ feature 'User can add links to question', '
     end
   end
 
-  scenario 'User non-owner can not add links' do
+  it 'User non-owner can not add links' do
     login second_user
 
     visit question_path question

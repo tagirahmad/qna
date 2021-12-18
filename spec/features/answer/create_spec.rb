@@ -2,26 +2,26 @@
 
 require 'rails_helper'
 
-feature 'User can add answer to particular question', "
+describe 'User can add answer to particular question', "
   In order to users can look at useful answers
 " do
-  given!(:user)     { create :user }
-  given!(:question) { create :question, user: user }
+  let!(:user)     { create :user }
+  let!(:question) { create :question, user: user }
 
   describe 'Authenticated user', js: true do
-    background do
+    before do
       login user
 
       visit question_path(question)
     end
 
     describe 'makes valid an answer' do
-      background do
+      before do
         fill_in 'Answer title', with: 'Test answer title'
         click_on 'Answer to question'
       end
 
-      scenario 'shows answer title on the page' do
+      it 'shows answer title on the page' do
         expect(page).to have_content 'Test answer title'
       end
 
@@ -30,7 +30,7 @@ feature 'User can add answer to particular question', "
       # end
     end
 
-    scenario 'makes an answer with attach files', js: true do
+    it 'makes an answer with attach files', js: true do
       fill_in 'Answer title', with: 'Test answer title'
       attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
       click_on 'Answer to question'
@@ -39,7 +39,7 @@ feature 'User can add answer to particular question', "
       expect(page).to have_link 'spec_helper.rb'
     end
 
-    scenario 'makes an answer with errors', js: true do
+    it 'makes an answer with errors', js: true do
       click_on 'Answer to question'
 
       expect(page).to have_content "Title can't be blank"
@@ -47,7 +47,7 @@ feature 'User can add answer to particular question', "
   end
 
   context 'multiple sessions' do
-    scenario 'answer appears on another user\'s page', js: true do
+    it 'answer appears on another user\'s page', js: true do
       using_session 'user' do
         login user
         visit question_path question
@@ -70,7 +70,7 @@ feature 'User can add answer to particular question', "
   end
 
   describe 'Unauthenticated user makes an answer', js: true do
-    scenario 'can not add an answer' do
+    it 'can not add an answer' do
       visit question_path question
 
       fill_in 'Answer title', with: 'Test answer title'

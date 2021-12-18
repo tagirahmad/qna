@@ -2,21 +2,21 @@
 
 require 'rails_helper'
 
-feature 'User can add links to answer', '
+describe 'User can add links to answer', '
   In order to provide aditional info to answer
 ' do
-  given(:user) { create :user }
-  given(:second_user) { create :user }
-  given(:question)	{ create :question }
-  given!(:answer) { create :answer, question: question, user: user }
-  given(:gist_url)	{ 'https://gist.github.com/tagirahmad/62598000f63a19949cbfeb39793a3c29' }
-  given(:gist_url2)   { 'https://google.com' }
-  given(:invalid_url) { 'google' }
+  let(:user) { create :user }
+  let(:second_user) { create :user }
+  let(:question)	{ create :question }
+  let!(:answer) { create :answer, question: question, user: user }
+  let(:gist_url)	{ 'https://gist.github.com/tagirahmad/62598000f63a19949cbfeb39793a3c29' }
+  let(:gist_url2)   { 'https://google.com' }
+  let(:invalid_url) { 'google' }
 
   context 'Owner' do
     before { login user }
 
-    scenario 'User adds valid link when asks question', js: true do
+    it 'User adds valid link when asks question', js: true do
       visit question_path question
 
       fill_in 'Answer title', with: 'Test answer title'
@@ -38,7 +38,7 @@ feature 'User can add links to answer', '
       end
     end
 
-    scenario 'User adds invalid link when asks question', js: true do
+    it 'User adds invalid link when asks question', js: true do
       visit question_path question
 
       fill_in 'Answer title', with: 'Test answer title'
@@ -52,7 +52,7 @@ feature 'User can add links to answer', '
   end
 
   context 'Non-owner' do
-    scenario 'User non-owner can not add links' do
+    it 'User non-owner can not add links' do
       login second_user
 
       visit question_path question

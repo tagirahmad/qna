@@ -2,13 +2,13 @@
 
 require 'rails_helper'
 
-feature 'User can edit his question' do
-  given!(:user)        { create :user }
-  given!(:second_user) { create :user }
-  given!(:question)    { create :question, :with_file, user: user }
-  given!(:link)        { create :link, linkable: question }
+describe 'User can edit his question' do
+  let!(:user)        { create :user }
+  let!(:second_user) { create :user }
+  let!(:question)    { create :question, :with_file, user: user }
+  let!(:link)        { create :link, linkable: question }
 
-  scenario 'Unathenticated user can not edit question' do
+  it 'Unathenticated user can not edit question' do
     visit question_path(question)
 
     expect(page).not_to have_link 'Edit'
@@ -21,7 +21,7 @@ feature 'User can edit his question' do
         visit question_path(question)
       end
 
-      scenario 'edits his question', js: true do
+      it 'edits his question', js: true do
         click_on 'Edit', class: 'edit-question'
         fill_in 'question[title]', with: 'my edited question'
         fill_in 'question[body]',  with: 'my edited question body'
@@ -35,7 +35,7 @@ feature 'User can edit his question' do
       end
 
       describe 'edits links' do
-        scenario 'press Edit to change url name', js: true do
+        it 'press Edit to change url name', js: true do
           click_on 'Edit', class: 'edit-question'
           within '.question' do
             fill_in 'Link name', with: 'link changed'
@@ -46,7 +46,7 @@ feature 'User can edit his question' do
         end
       end
 
-      scenario 'adds files while edits his question' do
+      it 'adds files while edits his question' do
         click_on 'Edit', class: 'edit-question'
         within "#edit-question-#{question.id}" do
           attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
@@ -57,7 +57,7 @@ feature 'User can edit his question' do
         expect(page).to have_link 'spec_helper.rb'
       end
 
-      scenario 'deletes added files' do
+      it 'deletes added files' do
         within "#file-#{question.files.first.id}" do
           click_on 'Delete'
         end
@@ -66,7 +66,7 @@ feature 'User can edit his question' do
       end
     end
 
-    scenario 'edits his question with errors', js: true do
+    it 'edits his question with errors', js: true do
       login user
 
       visit question_path(question)
@@ -79,7 +79,7 @@ feature 'User can edit his question' do
       expect { question }.not_to change(question, :title)
     end
 
-    scenario "tries to edit other user's answer" do
+    it "tries to edit other user's answer" do
       login second_user
 
       visit question_path(question)

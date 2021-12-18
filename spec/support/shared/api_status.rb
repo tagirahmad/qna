@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 shared_examples_for 'API successful status' do |action|
   it 'returns 200 status' do
     send action if action

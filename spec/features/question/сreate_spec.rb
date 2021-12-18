@@ -2,15 +2,15 @@
 
 require 'rails_helper'
 
-feature 'User can create question', "
+describe 'User can create question', "
   In order to get answer from a community
   As an aunthenticated user
   I'd like to be able to ask the question
 " do
-  given(:user) { create :user }
+  let(:user) { create :user }
 
   describe 'Authenticated user' do
-    background do
+    before do
       login user
 
       visit questions_path
@@ -18,7 +18,7 @@ feature 'User can create question', "
       click_on 'Ask question'
     end
 
-    scenario 'asks a question' do
+    it 'asks a question' do
       fill_in 'Title', with: 'Test question title'
       fill_in 'Body',  with: 'Test question body'
       click_on 'Ask'
@@ -28,7 +28,7 @@ feature 'User can create question', "
       expect(page).to have_content 'Test question body'
     end
 
-    scenario 'asks a question with attached files' do
+    it 'asks a question with attached files' do
       fill_in 'Title', with: 'Test question title'
       fill_in 'Body',  with: 'Test question body'
       attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
@@ -38,7 +38,7 @@ feature 'User can create question', "
       expect(page).to have_link 'spec_helper.rb'
     end
 
-    scenario 'asks a question with links' do
+    it 'asks a question with links' do
       fill_in 'Title',     with: 'Test question title'
       fill_in 'Body',      with: 'Test question body'
       fill_in 'Link name', with: 'https://google.com'
@@ -48,7 +48,7 @@ feature 'User can create question', "
       expect(page).to have_link 'https://google.com'
     end
 
-    scenario 'asks a question with errors' do
+    it 'asks a question with errors' do
       click_on 'Ask'
 
       expect(page).to have_content "Title can't be blank"
@@ -56,7 +56,7 @@ feature 'User can create question', "
   end
 
   context 'multiple sessions' do
-    scenario 'question appears on another user\'s page', js: true do
+    it 'question appears on another user\'s page', js: true do
       Capybara.using_session 'user' do
         login user
         visit questions_path
@@ -82,7 +82,7 @@ feature 'User can create question', "
     end
   end
 
-  scenario 'Unauthenticated user asks a question' do
+  it 'Unauthenticated user asks a question' do
     visit questions_path
 
     expect(page).not_to have_content 'Ask question'

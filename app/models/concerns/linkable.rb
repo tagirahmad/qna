@@ -7,4 +7,3 @@ module Linkable
     has_many :links, dependent: :destroy, as: :linkable
   end
 end
-

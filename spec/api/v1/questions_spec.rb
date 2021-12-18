@@ -108,9 +108,8 @@ describe 'Questions API', type: :request do
 
   describe 'DELETE /api/v1/questions/:id' do
     let!(:question) { create :question, user_id: access_token.resource_owner_id }
-    let(:api_path)        { "/api/v1/questions/#{question.id}" }
+    let(:api_path) { "/api/v1/questions/#{question.id}" }
 
     it_behaves_like 'API delete resource', Question
   end
 end
-

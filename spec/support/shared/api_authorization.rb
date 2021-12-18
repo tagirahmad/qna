@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 shared_examples_for 'API Authorizable' do
   context 'unathorized' do
     it 'returns 401 status if there is no access_token' do
@@ -13,4 +15,3 @@ shared_examples_for 'API Authorizable' do
     end
   end
 end
-

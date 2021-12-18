@@ -2,12 +2,12 @@
 
 require 'rails_helper'
 
-feature 'User can delete questions' do
-  given(:user)        { create :user }
-  given(:second_user) { create :user }
-  given!(:question)   { create :question, user: user }
+describe 'User can delete questions' do
+  let(:user)        { create :user }
+  let(:second_user) { create :user }
+  let!(:question)   { create :question, user: user }
 
-  scenario 'User can delete its own question', js: true do
+  it 'User can delete its own question', js: true do
     login user
 
     visit questions_path
@@ -23,7 +23,7 @@ feature 'User can delete questions' do
     expect(page).to have_no_content question.body
   end
 
-  scenario "User can't delete a question that is not its own" do
+  it "User can't delete a question that is not its own" do
     login second_user
 
     visit questions_path
@@ -33,7 +33,7 @@ feature 'User can delete questions' do
     expect(page).not_to have_css '#question-delete', text: 'Delete'
   end
 
-  scenario "Unathorised user can't delete a question" do
+  it "Unathorised user can't delete a question" do
     visit questions_path
 
     click_link(question.title)

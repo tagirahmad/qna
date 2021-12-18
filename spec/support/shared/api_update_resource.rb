@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 shared_examples_for 'API update resource' do |resource|
   let(:headers) { { 'ACCEPT' => 'application/json' } }
   let(:klass)   { resource.to_s.downcase.to_sym }
 
   context 'with valid attrs' do
-    describe "updates the #{resource.to_s} resource" do
+    describe "updates the #{resource} resource" do
       let(:changed_fields) { attributes_for(klass, :updated) }
 
       before do
@@ -27,9 +29,9 @@ shared_examples_for 'API update resource' do |resource|
             headers: headers
     end
 
-    it "does not update the #{resource.to_s} resource" do
+    it "does not update the #{resource} resource" do
       invalid_attrs.each do |attr, _value|
-        expect{ try_to_update_entity }.not_to change instance.reload, attr
+        expect { try_to_update_entity }.not_to change instance.reload, attr
       end
     end
 
