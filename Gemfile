@@ -33,6 +33,7 @@ gem 'thinking-sphinx', git: 'https://github.com/pat/thinking-sphinx.git', branch
 gem 'turbolinks', '~> 5'
 gem 'webpacker', '~> 5.0'
 gem 'whenever', require: false
+gem 'unicorn'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
@@ -47,6 +48,7 @@ group :development do
   gem 'capistrano-rails', require: false
   gem 'capistrano-rvm', require: false
   gem 'capistrano-sidekiq', require: false
+  gem 'capistrano3-unicorn', require: false
   gem 'listen', '~> 3.3'
   gem 'rack-mini-profiler', '~> 2.0'
   gem 'rubocop', '~> 1.20'
