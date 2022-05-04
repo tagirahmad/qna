@@ -32,9 +32,9 @@ gem 'sinatra', require: false
 gem 'slim-rails'
 gem 'thinking-sphinx', git: 'https://github.com/pat/thinking-sphinx.git', branch: 'develop'
 gem 'turbolinks', '~> 5'
+gem 'unicorn'
 gem 'webpacker', '~> 5.0'
 gem 'whenever', require: false
-gem 'unicorn'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
@@ -43,13 +43,14 @@ group :development, :test do
 end
 
 group :development do
+  gem 'bundler-audit', '~> 0.9.0.1'
   gem 'capistrano', require: false
+  gem 'capistrano3-unicorn', require: false
   gem 'capistrano-bundler', require: false
   gem 'capistrano-passenger', require: false
   gem 'capistrano-rails', require: false
   gem 'capistrano-rvm', require: false
   gem 'capistrano-sidekiq', require: false
-  gem 'capistrano3-unicorn', require: false
   gem 'listen', '~> 3.3'
   gem 'rack-mini-profiler', '~> 2.0'
   gem 'rubocop', '~> 1.20'
