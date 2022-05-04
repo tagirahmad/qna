@@ -1,28 +1,29 @@
 .flash
 
-.question
-  = render question
+- cache question do
+  .question
+    = render question
 
-.comment-errors
+  .comment-errors
 
-.answers
-  .best-answer
-    - if @best_answer
-      = render @best_answer, class: 'best-answer'
-  .other-answers
-    = render @other_answers
+  .answers
+    .best-answer
+      - if @best_answer
+        = render @best_answer, class: 'best-answer'
+    .other-answers
+      = render @other_answers
 
-.answer-errors
-  = render 'shared/errors', resource: @answer
+  .answer-errors
+    = render 'shared/errors', resource: @answer
 
-= form_with model: [question, @answer], local: false, class: 'new-answer' do |f|
-  = f.label :title, 'Answer title'
-  = f.text_field :title
-  = f.label :files
-  = f.file_field :files, multiple: true
-  = render 'links/form', form: f 
-  
-  = f.submit 'Answer to question'
+  = form_with model: [question, @answer], local: false, class: 'new-answer' do |f|
+    = f.label :title, 'Answer title'
+    = f.text_field :title
+    = f.label :files
+    = f.file_field :files, multiple: true
+    = render 'links/form', form: f
+
+    = f.submit 'Answer to question'
 
 = javascript_pack_tag 'utilities/questions.js'
 = javascript_pack_tag 'utilities/answers.js'
