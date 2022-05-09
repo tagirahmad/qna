@@ -134,3 +134,4 @@ modules.xml
 dump.rdb
 config/*.sphinx.conf
 db/sphinx
+coverage
