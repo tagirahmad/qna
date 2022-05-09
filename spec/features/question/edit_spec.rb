@@ -8,7 +8,7 @@ describe 'User can edit his question' do
   let!(:question)    { create :question, :with_file, user: user }
   let!(:link)        { create :link, linkable: question }
 
-  it 'Unathenticated user can not edit question' do
+  it 'unauthenticated user can not edit question' do
     visit question_path(question)
 
     expect(page).not_to have_link 'Edit'
@@ -21,17 +21,22 @@ describe 'User can edit his question' do
         visit question_path(question)
       end
 
-      it 'edits his question', js: true do
-        click_on 'Edit', class: 'edit-question'
-        fill_in 'question[title]', with: 'my edited question'
-        fill_in 'question[body]',  with: 'my edited question body'
-        click_on 'Save'
+      context 'when edits its own question' do
+        before do
+          click_on 'Edit', class: 'edit-question'
+          fill_in 'question[title]', with: 'my edited question'
+          fill_in 'question[body]',  with: 'my edited question body'
+          click_on 'Save'
+        end
 
-        expect(page).not_to have_content question.title
-        expect(page).not_to have_content question.body
-        expect(page).to have_content 'my edited question'
-        expect(page).to have_content 'my edited question body'
-        expect(page).not_to have_selector 'textarea'
+        it 'there are no previous title and body' do
+          [question.title, question.body].each { expect(page).not_to have_content _1 }
+          expect(page).not_to have_selector 'textarea'
+        end
+
+        it 'shows new edited data' do
+          expect(page).to have_content('my edited question').and have_content 'my edited question body'
+        end
       end
 
       describe 'edits links' do
@@ -49,12 +54,11 @@ describe 'User can edit his question' do
       it 'adds files while edits his question' do
         click_on 'Edit', class: 'edit-question'
         within "#edit-question-#{question.id}" do
-          attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+          attach_file 'Files', %W[#{Rails.root}/spec/rails_helper.rb #{Rails.root}/spec/spec_helper.rb]
           click_on 'Save'
         end
 
-        expect(page).to have_link 'rails_helper.rb'
-        expect(page).to have_link 'spec_helper.rb'
+        %w[rails_helper.rb spec_helper.rb].each { expect(page).to have_link _1 }
       end
 
       it 'deletes added files' do
@@ -68,7 +72,6 @@ describe 'User can edit his question' do
 
     it 'edits his question with errors', js: true do
       login user
-
       visit question_path(question)
 
       click_on 'Edit', class: 'edit-question'
@@ -81,7 +84,6 @@ describe 'User can edit his question' do
 
     it "tries to edit other user's answer" do
       login second_user
-
       visit question_path(question)
 
       expect(page).not_to have_link 'Edit', class: 'edit-question'

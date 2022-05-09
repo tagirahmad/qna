@@ -7,19 +7,18 @@ describe 'User can edit his answer' do
   let!(:second_user) { create :user }
   let!(:question)    { create :question }
   let!(:answer)      { create :answer, question: question, user: user }
-  let!(:link)        { create :link, linkable: answer }
 
-  it 'Unathenticated user can not edit answer' do
-    visit question_path(question)
-
+  it 'Unauthenticated user can not edit answer' do
+    visit question_path question
     expect(page).not_to have_link 'Edit'
   end
 
   describe 'Authenticated user' do
     describe 'edits his answer', js: true do
       before do
+        create :link, linkable: answer
         login user
-        visit question_path(question)
+        visit question_path question
       end
 
       describe 'manipulating files' do
@@ -72,15 +71,14 @@ describe 'User can edit his answer' do
         end
 
         expect(page).not_to have_content answer.title
-        expect(page).to have_content 'edited answer'
         expect(page).not_to have_selector 'textarea'
+        expect(page).to have_content 'edited answer'
       end
     end
 
     it 'edits his answer with errors', js: true do
       login user
-
-      visit question_path(question)
+      visit question_path question
 
       within '.answers' do
         click_on 'Edit', id: "answer-edit-#{answer.id}"
@@ -89,16 +87,13 @@ describe 'User can edit his answer' do
         click_on 'Save'
       end
 
-      expect(page).to have_content answer.title
-      expect(page).to have_content "Title can't be blank"
+      expect(page).to have_content(answer.title).and have_content "Title can't be blank"
       expect { answer }.not_to change(answer, :title)
     end
 
     it "tries to edit other user's answer" do
       login second_user
-
-      visit question_path(question)
-
+      visit question_path question
       expect(page).not_to have_link 'Edit', class: "answer-edit-#{answer.id}"
     end
   end

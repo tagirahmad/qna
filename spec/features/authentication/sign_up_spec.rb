@@ -16,7 +16,7 @@ describe 'User can sign up', "
     end
 
     it 'redirects to root path' do
-      expect(page).to have_current_path(root_path)
+      expect(page).to have_current_path root_path
     end
 
     it 'has welcome message' do
@@ -38,7 +38,6 @@ describe 'User can sign up', "
     end
 
     it 'with email already exists' do
-      # save_and_open_page
       fill_in 'Password',	             with: '123456'
       fill_in 'Password confirmation', with: '123456'
       click_on 'Register'

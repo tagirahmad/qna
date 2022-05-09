@@ -8,7 +8,6 @@ class Search
     if TYPES.include?(scope)
       scope.constantize.search(query)
     else
-      # byebug
       ThinkingSphinx.search(query)
     end
   end

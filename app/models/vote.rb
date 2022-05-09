@@ -10,6 +10,6 @@ class Vote < ApplicationRecord
   validates :votable_type, inclusion: { in: %w[Question Answer] }
 
   def not_votable_author?
-    votable&.user.author_of?(self)
+    votable&.user&.author_of?(self)
   end
 end

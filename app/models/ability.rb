@@ -23,27 +23,19 @@ class Ability
     can :manage, :all
   end
 
+  # rubocop:disable Metrics/AbcSize
   def user_abilities
     guest_abilities
-
     can :me, User, id: user.id
 
-    can :create,  [Question, Answer, Comment]
+    can :create,  [Question, Answer, Comment, Subscription]
     can :update,  [Question, Answer, Comment], user_id: user.id
-    can :destroy, [Question, Answer, Comment], user_id: user.id
-
-    can :create,  Subscription
-    can :destroy, Subscription, user_id: user.id
+    can :destroy, [Question, Answer, Comment, Subscription], user_id: user.id
 
     can :mark_as_best, Answer, question: { user_id: user.id }
 
-    can %i[vote_up vote_down unvote], [Question, Answer] do |resource|
-      !user.author_of?(resource)
-    end
-
-    can :unvote, [Question, Answer] do |resource|
-      user.author_of?(resource)
-    end
+    can(%i[vote_up vote_down unvote], [Question, Answer]) { |resource| !user.author_of?(resource) }
+    can(:unvote, [Question, Answer]) { |resource| user.author_of?(resource) }
 
     can :destroy, Link, linkable: { user_id: user.id }
     can :destroy, ActiveStorage::Attachment, record: { user_id: user.id }

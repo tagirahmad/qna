@@ -10,14 +10,14 @@ RSpec.shared_examples_for 'votable' do
   it { is_expected.to have_many(:votes).dependent(:destroy) }
 
   describe '#vote_up' do
-    context 'Votable owner' do
+    context 'when votable owner' do
       it 'model has zero votes' do
         model.vote_up(user)
         expect(model.votes_score).to eq 0
       end
     end
 
-    context 'Votable non-owner' do
+    context 'when votable non-owner' do
       before { model.vote_up(second_user) }
 
       it 'model has one vote' do
@@ -32,14 +32,14 @@ RSpec.shared_examples_for 'votable' do
   end
 
   describe '#vote_down' do
-    context 'Votable owner' do
+    context 'when votable owner' do
       it 'model has zero votes' do
         model.vote_down(user)
         expect(model.votes_score).to eq 0
       end
     end
 
-    context 'Votable non-owner' do
+    context 'when votable non-owner' do
       before { model.vote_down(second_user) }
 
       it 'model has -1 vote' do
@@ -54,7 +54,7 @@ RSpec.shared_examples_for 'votable' do
   end
 
   describe '#unvote' do
-    context 'unvotes' do
+    context 'when unvotes' do
       before { model.vote_up(second_user) }
 
       it 'decreases votes count by one' do

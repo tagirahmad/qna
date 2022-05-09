@@ -11,7 +11,6 @@ describe 'User can add answer to particular question', "
   describe 'Authenticated user', js: true do
     before do
       login user
-
       visit question_path(question)
     end
 
@@ -24,10 +23,6 @@ describe 'User can add answer to particular question', "
       it 'shows answer title on the page' do
         expect(page).to have_content 'Test answer title'
       end
-
-      # scenario 'shows message that answer is created' do
-      #   expect(page).to have_content 'The answer was created successfully.'
-      # end
     end
 
     it 'makes an answer with attach files', js: true do
@@ -41,12 +36,11 @@ describe 'User can add answer to particular question', "
 
     it 'makes an answer with errors', js: true do
       click_on 'Answer to question'
-
       expect(page).to have_content "Title can't be blank"
     end
   end
 
-  context 'multiple sessions' do
+  describe 'Multiple sessions' do
     it 'answer appears on another user\'s page', js: true do
       using_session 'user' do
         login user
@@ -77,7 +71,6 @@ describe 'User can add answer to particular question', "
       click_on 'Answer to question'
 
       expect(page).not_to have_content 'Test answer title'
-      # expect(page).to have_content 'You need to sign in or sign up before continuing.'
     end
   end
 end

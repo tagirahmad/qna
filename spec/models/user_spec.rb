@@ -32,7 +32,7 @@ RSpec.describe User, type: :model do
     end
 
     context 'when answer' do
-      let(:user_answer) { create :answer, user: user, question: question }
+      let(:user_answer) { create :answer, user: user, question: create(:question) }
 
       it 'user is the author of the answer' do
         expect(user).to be_author_of(user_answer)

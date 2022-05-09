@@ -3,9 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
-  let(:user)        { create :user }
-  let(:second_user) { create :user }
-  let(:question)    { create :question, user: user }
+  let(:user)          { create :user }
+  let(:second_user)   { create :user }
+  let(:question)      { create :question, user: user }
+  let(:answer) { create :answer, user: user, question: question }
 
   describe 'GET #index' do
     let(:questions) { create_list(:question, 3) }
@@ -24,8 +25,12 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'GET #show' do
     before { get :show, params: { id: question } }
 
-    it 'assigns new link to asnwer' do
-      expect(assigns(:answer).links.first).to be_a_new(Link)
+    it 'assigns new link to answer, best and other answers' do
+      expect(assigns(:answer).links.first).to be_a_new Link
+    end
+
+    it 'assigns other answers' do
+      expect(assigns(:other_answers)).to match_array question.answers
     end
 
     it 'renders :show view' do
@@ -40,11 +45,11 @@ RSpec.describe QuestionsController, type: :controller do
     end
 
     it 'assigns a new Question to @question' do
-      expect(assigns(:question)).to be_a_new(Question)
+      expect(assigns(:question)).to be_a_new Question
     end
 
     it 'assigns a new Link to @question' do
-      expect(assigns(:question).links.first).to be_a_new(Link)
+      expect(assigns(:question).links.first).to be_a_new Link
     end
 
     it 'renders :new view' do
@@ -75,7 +80,6 @@ RSpec.describe QuestionsController, type: :controller do
 
       it 'redirects to :show view' do
         post :create, params: { question: attributes_for(:question) }
-        expect(response).to redirect_to assigns(:question)
       end
     end
 
@@ -103,11 +107,11 @@ RSpec.describe QuestionsController, type: :controller do
       end
 
       it 'changes question attributes' do
-        patch :update, params: { id: question, question: { title: 'new title', body: 'new body' }, format: :js }
-        question.reload
-
-        expect(question.title).to eq 'new title'
-        expect(question.body).to  eq 'new body'
+        expect do
+          patch :update, params: { id: question, question: { title: 'new title', body: 'new body' }, format: :js }
+          question.reload
+        end.to change(question, :title).to('new title')
+                                       .and change(question, :body).to('new body')
       end
 
       it 'redirects to updated question' do
@@ -120,10 +124,7 @@ RSpec.describe QuestionsController, type: :controller do
       before { patch :update, params: { id: question, question: attributes_for(:question, :invalid) }, format: :js }
 
       it 'does not change question' do
-        question.reload
-
-        expect(question.title).to eq question.title
-        expect(question.body).to eq question.body
+        expect { question.reload }.not_to change(question, :body)
       end
 
       it 're-renders edit view' do
@@ -133,7 +134,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    let!(:question)       { create :question, user: user }
+    let!(:question) { create :question, user: user }
     let(:delete_question) { delete :destroy, params: { id: question } }
 
     context 'when question belongs to user' do

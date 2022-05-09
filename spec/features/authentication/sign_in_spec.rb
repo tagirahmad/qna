@@ -13,7 +13,7 @@ describe 'User can sign in', "
     before { visit new_user_session_path }
 
     it 'registered user tries to sign in' do
-      fill_in 'Email', with: user.email
+      fill_in 'Email',    with: user.email
       fill_in 'Password', with: user.password
       click_on 'Log in'
 
