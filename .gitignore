@@ -131,6 +131,7 @@ modules.xml
 # Sonarlint plugin
 .idea/sonarlint
 
-dump.rdb
+/dump.rdb
 config/*.sphinx.conf
 db/sphinx
+coverage
