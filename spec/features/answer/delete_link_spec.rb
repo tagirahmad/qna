@@ -9,29 +9,23 @@ describe 'User can delete links from answer' do
   let(:answer)      { create :answer, user: user, question: question }
   let!(:link)       { create :link, linkable: answer }
 
-  context 'Owner' do
-    it 'User deletes links from answer', js: true do
+  describe 'Owner' do
+    it 'deletes links from answer', js: true do
       login user
-
       visit question_path question
 
-      within '.answers .links' do
-        click_on 'Delete'
-      end
+      within('.answers .links') { click_on 'Delete' }
 
       expect(page).not_to have_link link.name, href: link.url
     end
   end
 
-  context 'Non-owner' do
-    it 'Can not delete link' do
+  describe 'Non-owner' do
+    it 'can not delete link' do
       login second_user
-
       visit question_path question
 
-      within(all('.answers .links').first) do
-        expect(page).not_to have_link 'Delete'
-      end
+      within(all('.answers .links').first) { expect(page).not_to have_link 'Delete' }
     end
   end
 end

@@ -2,6 +2,7 @@
 
 require 'rails_helper'
 
+# rubocop:disable RSpec/MultipleMemoizedHelpers
 describe 'Answers API', type: :request do
   let(:headers)      { { 'ACCEPT' => 'application/json' } }
   let(:user)         { create :user }
@@ -15,25 +16,24 @@ describe 'Answers API', type: :request do
       let(:method) { :get }
     end
 
-    context 'authorized' do
-      let(:second_question) { create :question }
-      let(:count)           { 3 }
+    describe 'Authorized' do
+      let(:count) { 3 }
       let!(:answers) { create_list :answer, count, :with_file, question: question }
-      let(:list)            { json['answers'] }
       let(:answer)          { answers.first }
-      let(:entity)          { answer }
       let(:server_response) { json['answers'].first }
-      let(:public_fields)   { %w[id title user_id created_at updated_at comments links] }
 
-      before do
-        get api_path, params: { access_token: access_token.token }, headers: headers
-      end
+      before { get api_path, params: { access_token: access_token.token }, headers: headers }
 
       it_behaves_like 'API successful status'
 
-      it_behaves_like 'API list of resources'
+      it_behaves_like 'API list of resources' do
+        let(:list) { json['answers'] }
+      end
 
-      it_behaves_like 'API fields'
+      it_behaves_like 'API fields' do
+        let(:entity)        { answer }
+        let(:public_fields) { %w[id title user_id created_at updated_at comments links] }
+      end
 
       it 'has file' do
         expect(server_response['files'].first).to include answer.files.blobs.first.filename.to_s
@@ -50,23 +50,23 @@ describe 'Answers API', type: :request do
   end
 
   describe 'GET /api/v1/questions/:id/answers/:id' do
-    let(:answer)          { create :answer, :with_file, question: question }
-    let(:entity)          { answer }
+    let(:answer) { create :answer, :with_file, question: question }
+    # rubocop:disable RSpec/LetSetup
     let!(:links) { create_list :link, 2, linkable: answer }
-    let(:api_path)        { "/api/v1/questions/#{question.id}/answers/#{answer.id}" }
+    let(:api_path) { "/api/v1/questions/#{question.id}/answers/#{answer.id}" }
     let(:server_response) { json['answer'] }
-    let(:public_fields)   { %w[id title user_id created_at updated_at comments links] }
 
     it_behaves_like 'API Authorizable' do
       let(:method) { :get }
     end
 
-    context 'authorized' do
-      before do
-        get api_path, params: { access_token: access_token.token }, headers: headers
-      end
+    describe 'authorized' do
+      before { get api_path, params: { access_token: access_token.token }, headers: headers }
 
-      it_behaves_like 'API fields'
+      it_behaves_like 'API fields' do
+        let(:entity)        { answer }
+        let(:public_fields) { %w[id title user_id created_at updated_at comments links] }
+      end
 
       it 'has file' do
         expect(server_response['files'].first).to include answer.files.blobs.first.filename.to_s

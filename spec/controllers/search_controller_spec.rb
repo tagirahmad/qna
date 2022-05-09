@@ -10,13 +10,13 @@ RSpec.describe SearchController, type: :controller do
     let(:find_question_scoped) { post :search, params: { query: question.body, scope: 'Question' } }
 
     it 'finds the desired result with scope' do
-      expect(search).to receive(:call).with(question.body, 'Question').and_return [question]
+      allow(search).to receive(:call).with(question.body, 'Question').and_return [question]
       find_question_scoped
       expect(assigns(:result).first).to be_a(Question)
     end
 
     it 'finds the desired result without scope' do
-      expect(search).to receive(:call).with(question.body, nil).and_return [question]
+      allow(search).to receive(:call).with(question.body, nil).and_return [question]
       find_question
       expect(assigns(:result).first).to be_a(Question)
     end

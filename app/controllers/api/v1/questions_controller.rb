@@ -3,7 +3,7 @@
 module Api
   module V1
     class QuestionsController < BaseController
-      before_action :find_question, except: :create
+      before_action :question, except: :create
 
       authorize_resource
 
@@ -44,7 +44,7 @@ module Api
                                                         reward_attributes: %i[name image])
       end
 
-      def find_question
+      def question
         @question ||= params[:id] ? Question.with_attached_files.find(params[:id]) : Question.new
       end
     end

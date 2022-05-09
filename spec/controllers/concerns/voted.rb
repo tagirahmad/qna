@@ -9,22 +9,21 @@ shared_examples 'voted' do
   describe 'PATCH #vote_up' do
     subject { patch :vote_up, params: parameters }
 
-    describe 'Authorized user' do
+    describe 'authorized user' do
       before { login user }
 
-      context 'entity non-owner' do
+      context 'when entity non-owner' do
         it 'can vote up' do
           expect { subject }.to change(model.votes, :count).by 1
         end
 
         it 'can not vote twice' do
-          subject
-          subject
+          2.times { subject }
           expect(model.votes_score).to eq 1
         end
       end
 
-      context 'entity owner' do
+      context 'when entity owner' do
         before { model.update(user_id: user.id) }
 
         it 'can not vote up' do
@@ -33,7 +32,7 @@ shared_examples 'voted' do
       end
     end
 
-    describe 'Unauthorized user' do
+    describe 'unauthorized user' do
       it 'can not vote up' do
         expect { subject }.not_to change(model.votes, :count)
       end
@@ -50,28 +49,28 @@ shared_examples 'voted' do
     describe 'Authorized user' do
       before { login user }
 
-      context 'entity non-owner' do
+      context 'when entity non-owner' do
         it 'can vote down' do
           expect { subject }.to change(model.votes, :count).by 1
         end
 
         it 'can not vote twice' do
-          subject
-          subject
+          2.times { subject }
           expect(model.votes_score).to eq(-1)
         end
       end
 
-      context 'entity owner' do
-        before { model.update(user_id: user.id) }
-
+      context 'when entity owner' do
         it 'can not vote down' do
-          expect { subject }.not_to change(model.votes, :count)
+          expect do
+            model.update(user_id: user.id)
+            subject
+          end.not_to change(model.votes, :count)
         end
       end
     end
 
-    describe 'Unauthorized user' do
+    describe 'unauthorized user' do
       it 'can not vote down' do
         expect { subject }.not_to change(model.votes, :count)
       end
@@ -91,23 +90,23 @@ shared_examples 'voted' do
         patch :vote_up, params: parameters
       end
 
-      context 'entity non-owner' do
+      context 'when entity non-owner' do
         it 'can unvote' do
           expect { subject }.to change(model.votes, :count).by(-1)
         end
 
         it 'can not unvote twice' do
-          subject
-          subject
+          2.times { subject }
           expect(model.votes_score).to eq 0
         end
       end
 
-      context 'entity owner' do
-        before { model.update(user_id: user.id) }
-
+      context 'when entity owner' do
         it 'can not unvote' do
-          expect { subject }.not_to change(model.votes, :count)
+          expect do
+            model.update(user_id: user.id)
+            subject
+          end.not_to change(model.votes, :count)
         end
       end
     end

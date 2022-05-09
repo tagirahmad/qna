@@ -7,5 +7,5 @@ RSpec.describe Subscription, type: :model do
 
   it { is_expected.to belong_to :user }
   it { is_expected.to belong_to :subscribeable }
-  it { is_expected.to validate_uniqueness_of(:user_id).scoped_to(:subscribeable_type, :subscribeable_id) }
+  it { is_expected.to validate_uniqueness_of(:user_id).scoped_to :subscribeable_type, :subscribeable_id }
 end

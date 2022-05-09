@@ -2,7 +2,8 @@
 
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
-  after_action  :publish_question,   only:   %i[create]
+  before_action :find_best_and_other_answers, only: :show
+  after_action  :publish_question, only: :create
 
   include Voted
 
@@ -14,10 +15,7 @@ class QuestionsController < ApplicationController
 
   def show
     @answer = Answer.new
-    @best_answer = question.best_answer
-    @other_answers = question.answers.where.not(id: question.best_answer_id)
     @answer.links.new
-    # @comment = @answer.comments.new
 
     gon.question_id = question.id
     gon.current_user_id = current_user&.id
@@ -65,6 +63,11 @@ class QuestionsController < ApplicationController
     @question ||= params[:id] ? Question.with_attached_files.find(params[:id]) : Question.new
   end
 
+  def find_best_and_other_answers
+    @best_answer = question.best_answer
+    @other_answers = question.answers.where.not(id: question.best_answer_id)
+  end
+
   helper_method :question
 
   def publish_question
@@ -73,17 +76,19 @@ class QuestionsController < ApplicationController
     ActionCable.server.broadcast(
       'questions',
       {
-        partial: ApplicationController.render(
-          partial: 'questions/list_item',
-          locals: { question: @question }
-        ),
+        partial: ApplicationController.render(partial: 'questions/list_item', locals: { question: @question }),
         question: @question
       }
     )
   end
 
   def question_params
-    params.require(:question).permit(:title, :body, files: [], links_attributes: %i[name url id],
-                                                    reward_attributes: %i[name image])
+    params
+      .require(:question)
+      .permit(:title,
+              :body,
+              files: [],
+              links_attributes: %i[name url id],
+              reward_attributes: %i[name image])
   end
 end

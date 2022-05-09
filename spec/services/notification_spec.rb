@@ -10,9 +10,7 @@ RSpec.describe Notification do
   let(:answer)   { create :answer, question: question }
 
   it 'sends notification about new record' do
-    users.each do |user|
-      allow(NotificationMailer).to receive(:notify_about_updates).with(answer, user).and_call_original
-    end
+    users.each { allow(NotificationMailer).to receive(:notify_about_updates).with(answer, _1).and_call_original }
 
     notification.notify_about_updates(answer, belongs_to: question)
   end

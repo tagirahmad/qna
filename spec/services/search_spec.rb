@@ -8,12 +8,12 @@ RSpec.describe Search, sphinx: true do
 
   context 'when finding the desired result' do
     it 'with passed scope' do
-      expect(question.class).to receive(:search).with(question.body).and_return [question]
+      allow(question.class).to receive(:search).with(question.body).and_return [question]
       search.call(question.body, 'Question')
     end
 
     it 'without passed scope' do
-      expect(ThinkingSphinx).to receive(:search).with(question.body).and_return [question]
+      allow(ThinkingSphinx).to receive(:search).with(question.body).and_return [question]
       search.call(question.body)
     end
   end

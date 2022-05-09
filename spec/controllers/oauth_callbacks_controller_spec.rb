@@ -2,8 +2,9 @@
 
 require 'rails_helper'
 
+# rubocop:disable RSpec/NamedSubject
 RSpec.describe OauthCallbacksController, type: :controller do
-  before { @request.env['devise.mapping'] = Devise.mappings[:user] }
+  before { request.env['devise.mapping'] = Devise.mappings[:user] }
 
   describe 'Github' do
     let(:oauth_data) { { 'provider' => 'github', 'uid' => '123' } }
@@ -11,19 +12,19 @@ RSpec.describe OauthCallbacksController, type: :controller do
     it 'finds user from oauth data' do
       allow(request.env).to receive(:[]).and_call_original
       allow(request.env).to receive(:[]).with('omniauth.auth').and_return(oauth_data)
-      expect(User).to receive(:find_for_oauth).with(oauth_data)
+      allow(User).to receive(:find_for_oauth).with(oauth_data)
       get :github
     end
 
-    context 'user exists' do
-      let!(:user) { create :user }
+    context 'when user exists' do
+      let(:user) { create :user }
 
       before do
-        expect(User).to receive(:find_for_oauth).and_return(user)
+        allow(User).to receive(:find_for_oauth).and_return(user)
         get :github
       end
 
-      it 'login user' do
+      it 'logins user' do
         expect(subject.current_user).to eq user
       end
 
@@ -32,7 +33,7 @@ RSpec.describe OauthCallbacksController, type: :controller do
       end
     end
 
-    context 'user does not exists' do
+    context 'when user does not exists' do
       before do
         allow(User).to receive :find_for_oauth
         get :github
@@ -43,7 +44,7 @@ RSpec.describe OauthCallbacksController, type: :controller do
       end
 
       it 'does not login user if it does not exists' do
-        expect(subject.current_user).not_to be
+        expect(subject.current_user).to be_nil
       end
     end
   end

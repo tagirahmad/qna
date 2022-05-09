@@ -6,7 +6,6 @@ describe 'The user can view a list of all his rewards.' do
   let!(:users)         { create_list(:user, 2) }
   let!(:questions)     { create_list(:question, 2, user: users.first) }
   let!(:answer)        { create(:answer, question: questions.first, user: users.first) }
-  let!(:second_answer) { create(:answer, question: questions.last,  user: users.last) }
   let!(:reward)        { create :reward, :with_image, question: questions.first, user: users.first }
   let!(:second_reward) do
     create :reward, :with_image, question: questions.last, user: users.last, name: 'second reward'
@@ -29,13 +28,12 @@ describe 'The user can view a list of all his rewards.' do
   end
 
   describe 'Unauthenticated user' do
-    it 'have not link to rewards page' do
+    it 'does not have link to rewards page' do
       expect(page).not_to have_link 'Rewards'
     end
 
-    it 'try to access on rewards page' do
+    it 'tries to access on rewards page' do
       visit rewards_path
-
       expect(page).to have_content 'You need to sign in or sign up before continuing.'
     end
   end

@@ -8,7 +8,7 @@ RSpec.describe DailyDigest do
   let(:users) { create_list :user, 3 }
 
   it 'sends daily digest to all users' do
-    users.each { |user| allow(DailyDigestMailer).to receive(:digest).with(user).and_call_original }
+    users.each { allow(DailyDigestMailer).to receive(:digest).with(_1).and_call_original }
     daily_digest.send_digest
   end
 end

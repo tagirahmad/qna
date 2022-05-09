@@ -19,9 +19,9 @@ RSpec.describe SubscriptionsController, type: :controller do
     end
   end
 
+  # rubocop:disable RSpec/MultipleMemoizedHelpers
   describe '#DELETE destroy' do
     let!(:subscription) { create :subscription, user: user, subscribeable: question }
-
     let(:delete_subscription) do
       delete :destroy, params: { id: subscription }, format: :js
     end

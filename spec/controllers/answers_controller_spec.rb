@@ -13,36 +13,25 @@ RSpec.describe AnswersController, type: :controller do
     context 'with valid attributes' do
       before { login user }
 
-      let(:create_answer) do
-        post :create, params: { question_id: question.id, answer: attributes_for(:answer) }, format: :js
-      end
-
       it 'saves a new answer into db' do
-        expect { create_answer }.to change(question.answers, :count).by 1
-      end
-
-      it 'redirects to question path' do
-        create_answer
-        # expect(response).to redirect_to question
-        expect(response).to render_template :create
+        expect do
+          post :create, params: { question_id: question.id, answer: attributes_for(:answer) }, format: :js
+        end.to change(question.answers, :count).by 1
       end
     end
 
     context 'with invalid attributes' do
-      before { login user }
-
-      let(:create_invalid_answer) do
-        post :create, params: { question_id: question.id, answer: attributes_for(:answer, :invalid) },
-                      format: :js
+      before do
+        login user
+        post :create, params: { question_id: question.id, answer: attributes_for(:answer, :invalid) }, format: :js
       end
 
       it 'does not save a new answer' do
-        expect { create_invalid_answer }.to change(question.answers, :count).by 0
+        expect { response }.to change(question.answers, :count).by 0
       end
 
-      it 're-renders question view' do
-        create_invalid_answer
-        expect(response).to render_template :create
+      it 'returns status code unprocessable_entity' do
+        expect(response).to have_http_status(:unprocessable_entity)
       end
     end
   end
@@ -51,30 +40,16 @@ RSpec.describe AnswersController, type: :controller do
     let!(:answer) { create :answer, user: user }
 
     context 'when answer belongs to user' do
-      let(:delete_answer) { delete :destroy, params: { id: answer }, format: :js }
-
-      before { login user }
-
       it 'delete answer' do
-        expect { delete_answer }.to change(Answer, :count).by(-1)
-      end
-
-      it 'redirects to question#show' do
-        delete_answer
+        login user
+        expect { delete :destroy, params: { id: answer }, format: :js }.to change(Answer, :count).by(-1)
       end
     end
 
     context 'when answer does not belong to user' do
-      let(:delete_answer) { delete :destroy, params: { id: answer }, format: :js }
-
-      before { login second_user }
-
       it 'can not delete can not its own answer' do
-        expect { delete_answer }.not_to change(Answer, :count)
-      end
-
-      it 'redirects to question#show' do
-        delete_answer
+        login second_user
+        expect { delete :destroy, params: { id: answer }, format: :js }.not_to change(Answer, :count)
       end
     end
   end
@@ -90,11 +65,6 @@ RSpec.describe AnswersController, type: :controller do
         answer.reload
         expect(answer.title).to eq 'new title'
       end
-
-      it 'renders update view' do
-        patch :update, params: { id: answer, answer: { title: 'new title' } }, format: :js
-        expect(response).to render_template :update
-      end
     end
 
     context 'with invalid attributes' do
@@ -103,19 +73,14 @@ RSpec.describe AnswersController, type: :controller do
           patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }, format: :js
         end.not_to change(answer, :title)
       end
-
-      it 'renders update view' do
-        patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }, format: :js
-        expect(response).to render_template :update
-      end
     end
   end
 
   describe '#mark_as_best', js: true do
     let!(:answer) { create(:answer, question: question, user: user) }
-    let!(:reward) { create :reward, question: answer.question }
 
     before do
+      create :reward, question: answer.question
       login user
       patch :mark_as_best, params: { id: answer }, format: :js
       answer.reload

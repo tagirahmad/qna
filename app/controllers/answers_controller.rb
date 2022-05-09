@@ -16,8 +16,12 @@ class AnswersController < ApplicationController
   end
 
   def create
-    @answer = question.answers.create(answer_params.merge(user_id: current_user.id))
-    flash[:alert] = 'Answer successfully created!'
+    @answer = question.answers.build(answer_params.merge(user_id: current_user.id))
+    if @answer.save
+      flash[:alert] = 'Answer successfully created!'
+    else
+      render nothing: true, status: :unprocessable_entity
+    end
   end
 
   def destroy
@@ -44,8 +48,7 @@ class AnswersController < ApplicationController
     @answer ||= params[:id] ? Answer.with_attached_files.find(params[:id]) : Answer.new
   end
 
-  helper_method :answer
-  helper_method :question
+  helper_method :answer, :question
 
   def publish_answer
     return if @answer.errors.any?

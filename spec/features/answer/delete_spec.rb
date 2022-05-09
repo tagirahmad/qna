@@ -5,14 +5,14 @@ require 'rails_helper'
 describe 'User can delete answers' do
   let(:user)        { create :user }
   let(:second_user) { create :user }
-  let!(:question)   { create :question }
-  let!(:answer)     { create :answer, question: question, user: user }
+  let!(:question) { create :question }
+  let!(:answer)   { create :answer, question: question, user: user }
 
   it 'User can delete only his answers', js: true do
     login user
     visit questions_path
 
-    click_link(question.title)
+    click_link question.title
 
     expect(page).to have_content answer.title
 
@@ -26,7 +26,7 @@ describe 'User can delete answers' do
     login second_user
     visit questions_path
 
-    click_link(question.title)
+    click_link question.title
 
     expect(page).to have_content answer.title
     expect(page).not_to have_css "#answer-delete-#{answer.id}", text: 'Delete'
@@ -35,7 +35,7 @@ describe 'User can delete answers' do
   it 'Unathenticated can not delete not its own answer' do
     visit questions_path
 
-    click_link(question.title)
+    click_link question.title
 
     expect(page).to have_content answer.title
     expect(page).not_to have_css "#answer-delete-#{answer.id}", text: 'Delete'

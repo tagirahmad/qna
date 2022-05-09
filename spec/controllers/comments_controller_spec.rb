@@ -16,10 +16,10 @@ RSpec.describe CommentsController, type: :controller do
   end
 
   describe 'POST #create' do
-    context 'Authorized user creates comment' do
+    context 'with authorized user creates comment' do
       before { login user }
 
-      context 'with valid attributes' do
+      describe 'with valid attributes' do
         it 'creates comment to question' do
           expect { create_question_comment }.to change(question.comments, :count).by 1
         end
@@ -34,20 +34,18 @@ RSpec.describe CommentsController, type: :controller do
         end
       end
 
-      context 'with invalid attributes' do
-        subject do
-          post :create,
-               params: { question_id: question.id, comment: { comments: attributes_for(:comment, :invalid) },
-                         format: :js }
-        end
-
-        it 'not save answer in database' do
-          expect { subject }.not_to change(question.comments, :count)
+      describe 'with invalid attributes' do
+        it 'does not save answer in database' do
+          expect do
+            post :create,
+                 params: { question_id: question.id, comment: { comments: attributes_for(:comment, :invalid) },
+                           format: :js }
+          end.not_to change(question.comments, :count)
         end
       end
     end
 
-    context 'Unauthenticated user' do
+    context 'when unauthenticated user' do
       before { create_question_comment }
 
       it 'tries to comment' do
