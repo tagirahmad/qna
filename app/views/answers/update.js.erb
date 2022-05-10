@@ -1,12 +1,12 @@
-<% if @answer.errors.present? %>
-  <% @answer.errors.full_messages.each do |message| %>
+<% if answer.errors.present? %>
+  <% answer.errors.full_messages.each do |message| %>
     $('.answer-errors').html('<%= j message %>');
   <% end %>
 <% else %>
-  <% answer_id = "#answer-#{@answer.id}" %>
+  <% answer_id = "#answer-#{answer.id}" %>
   $('.flash').html('<%= j render "shared/flash_messages" %>');
-  $('<%= answer_id %>').replaceWith('<%= j render @answer %>');
+  $('<%= answer_id %>').replaceWith('<%= j render answer %>');
   
-  $('#answer-edit-' + '<%= @answer.id %>').show()
-  $('form#edit-answer-' + '<%= j @answer.id %>').addClass('hidden')
+  $('#answer-edit-' + '<%= answer.id %>').show()
+  $('form#edit-answer-' + '<%= j answer.id %>').addClass('hidden')
 <% end %>

@@ -1,0 +1,21 @@
+### Generic smell configuration
+
+detectors:
+  # You can disable smells completely
+  IrresponsibleModule:
+    enabled: false
+  InstanceVariableAssumption:
+    enabled: false
+  UncommunicativeMethodName:
+    exclude:
+      - 'OauthCallbacksController#google_oauth2'
+  UncommunicativeModuleName:
+    reject:
+      - "/^V$/"
+
+### Excluding directories
+
+# Directories and files below will not be scanned at all
+exclude_paths:
+  - db/
+  - config/
