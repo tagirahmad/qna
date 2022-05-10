@@ -16,10 +16,12 @@ class CommentsController < ApplicationController
   private
 
   def find_commentable
-    if params[:answer_id]
-      @commentable = Answer.find(params[:answer_id])
-    elsif params[:question_id]
-      @commentable = Question.find(params[:question_id])
+    answer_id = params[:answer_id]
+    question_id = params[:question_id]
+    if answer_id
+      @commentable = Answer.find(answer_id)
+    elsif question_id
+      @commentable = Question.find(question_id)
     end
   end
 
@@ -40,6 +42,7 @@ class CommentsController < ApplicationController
   end
 
   def channel
-    @comment.commentable_type.to_sym == :Answer ? @comment.commentable.question : @comment.commentable
+    comment_commentable = @comment.commentable
+    @comment.commentable_type.to_sym == :Answer ? comment_commentable.question : comment_commentable
   end
 end

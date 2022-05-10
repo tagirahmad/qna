@@ -1,10 +1,10 @@
-<% if @question.errors.present? %>
-  <% @question.errors.full_messages.each do |message| %>
+<% if question.errors.present? %>
+  <% question.errors.full_messages.each do |message| %>
     $('.question-errors').html('<%= j message %>');
   <% end %>
 <% else %>
   $('.flash').html('<%= j render "shared/flash_messages" %>');
-  $('.question').html('<%= j render @question %>');
+  $('.question').html('<%= j render question %>');
   $('.edit-question').show()
-  $('form#edit-question-' + '<%= j @question.id %>').addClass('hidden')
+  $('form#edit-question-' + '<%= j question.id %>').addClass('hidden')
 <% end %>

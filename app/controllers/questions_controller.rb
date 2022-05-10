@@ -27,8 +27,7 @@ class QuestionsController < ApplicationController
   end
 
   def create
-    @question = Question.create(question_params.merge(user_id: current_user.id))
-
+    @question = Question.new(question_params.merge(user_id: current_user.id))
     if @question.save
       redirect_to @question, notice: 'Your question was successfully created.'
     else
@@ -39,12 +38,9 @@ class QuestionsController < ApplicationController
   def edit; end
 
   def update
-    if current_user.author_of?(question)
-      question.update(question_params)
-      flash.now[:notice] = 'The question was updated successfully.'
-    end
+    return unless current_user.author_of?(question) && question.update(question_params)
 
-    @question = question
+    flash.now[:notice] = 'The question was updated successfully.'
   end
 
   def destroy
@@ -60,7 +56,8 @@ class QuestionsController < ApplicationController
   private
 
   def question
-    @question ||= params[:id] ? Question.with_attached_files.find(params[:id]) : Question.new
+    question_id = params[:id]
+    @question ||= question_id ? Question.with_attached_files.find(question_id) : Question.new
   end
 
   def find_best_and_other_answers
@@ -71,13 +68,13 @@ class QuestionsController < ApplicationController
   helper_method :question
 
   def publish_question
-    return if @question.errors.any?
+    return if question.errors.any?
 
     ActionCable.server.broadcast(
       'questions',
       {
-        partial: ApplicationController.render(partial: 'questions/list_item', locals: { question: @question }),
-        question: @question
+        partial: ApplicationController.render(partial: 'questions/list_item', locals: { question: question }),
+        question: question
       }
     )
   end

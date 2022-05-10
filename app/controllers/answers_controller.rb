@@ -12,7 +12,6 @@ class AnswersController < ApplicationController
   def mark_as_best
     @old_best_answer = question.best_answer
     answer.mark_as_best if current_user.author_of?(answer.question)
-    @answer = answer
   end
 
   def create
@@ -34,18 +33,16 @@ class AnswersController < ApplicationController
   end
 
   def update
-    if current_user.author_of?(answer)
-      answer.update(answer_params)
-      flash.now[:notice] = 'The answer was updated successfully.'
-    end
+    return unless current_user.author_of?(answer) && answer.update(answer_params)
 
-    @answer = answer
+    flash.now[:notice] = 'The answer was updated successfully.'
   end
 
   private
 
   def answer
-    @answer ||= params[:id] ? Answer.with_attached_files.find(params[:id]) : Answer.new
+    answer_id = params[:id]
+    @answer ||= answer_id ? Answer.with_attached_files.find(answer_id) : Answer.new
   end
 
   helper_method :answer, :question

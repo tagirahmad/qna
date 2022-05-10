@@ -45,7 +45,8 @@ module Api
       end
 
       def question
-        @question ||= params[:id] ? Question.with_attached_files.find(params[:id]) : Question.new
+        question_id = params[:id]
+        @question ||= question_id ? Question.with_attached_files.find(question_id) : Question.new
       end
     end
   end
