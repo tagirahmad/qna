@@ -32,7 +32,7 @@ describe 'Questions API', type: :request do
       end
 
       it 'contains user object' do
-        expect(server_response['user']['id']).not_to be nil
+        expect(server_response['user']['id']).not_to be_nil
       end
 
       it 'contains short title' do

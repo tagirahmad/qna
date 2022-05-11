@@ -46,7 +46,7 @@ RSpec.describe User, type: :model do
 
   describe '.find_for_oauth' do
     let(:auth)    { OmniAuth::AuthHash.new(provider: 'facebook', uid: '123456') }
-    let(:service) { instance_double('FindForOauth') }
+    let(:service) { instance_double FindForOauth }
 
     it 'calls FindForOauth' do
       allow(FindForOauth).to receive(:new).with(auth).and_return(service)

@@ -11,13 +11,18 @@ class FindForOauth
     authorization = Authorization.where(provider: auth.provider, uid: auth.uid.to_s).first
     return authorization.user if authorization
 
-    email = auth.info[:email]
-    user = User.where(email: email).first
+    find_or_create_user_with_authorization
+  end
 
-    unless user
-      password = Devise.friendly_token[0, 20]
-      user = User.create!(email: email, password: password, password_confirmation: password)
-    end
+  private
+
+  def find_or_create_user_with_authorization
+    email = auth.info[:email]
+    password = Devise.friendly_token[0, 20]
+    user = User.find_by(email: email)
+
+    user ||= User.create!(email: email, password: password, password_confirmation: password)
+
     user.create_authorization(auth)
 
     user

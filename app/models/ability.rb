@@ -24,6 +24,7 @@ class Ability
   end
 
   # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/MethodLength
   def user_abilities
     user_id = user.id
 

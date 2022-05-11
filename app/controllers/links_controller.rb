@@ -2,7 +2,7 @@
 
 class LinksController < ApplicationController
   before_action :authenticate_user!, only: :destroy
-  before_action :find_link
+  before_action :link, only: :destroy
 
   authorize_resource
 
@@ -12,7 +12,7 @@ class LinksController < ApplicationController
 
   private
 
-  def find_link
+  def link
     @link ||= Link.find(params[:id])
   end
 end

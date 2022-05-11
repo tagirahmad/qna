@@ -47,7 +47,7 @@ RSpec.describe Answer, type: :model do
     end
 
     it '#notify_subscribers' do
-      notification_job = class_double 'NotificationJob'
+      notification_job = class_double NotificationJob
 
       allow(notification_job).to receive(:perform_later).with(answer, belongs_to: answer.question)
       notification_job.perform_later(answer, belongs_to: answer.question)
