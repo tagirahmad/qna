@@ -3,7 +3,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.7.2'
+ruby '3.1.2'
 
 gem 'active_model_serializers', '~> 0.10.12'
 gem 'aws-sdk-s3', '~> 1', require: false
@@ -24,7 +24,7 @@ gem 'omniauth-google-oauth2'
 gem 'omniauth-rails_csrf_protection'
 gem 'pg', '~> 1.1'
 gem 'puma', '~> 5.0'
-gem 'rails', '~> 6.1.4', '>= 6.1.4.1'
+gem 'rails', '~> 7.0.4', '>= 7.0.4'
 gem 'redis-rails'
 gem 'sass-rails', '>= 6'
 gem 'sidekiq'
@@ -55,9 +55,8 @@ group :development do
   gem 'listen', '~> 3.3'
   gem 'rack-mini-profiler', '~> 2.0'
   gem 'reek', '~> 6.1', '>= 6.1.1'
-  gem 'rubocop', '~> 1.29'
-  gem 'rubocop-rspec', '~> 2.4'
-  gem 'spring'
+  gem 'rubocop'
+  gem 'rubocop-rspec'
   gem 'web-console', '>= 4.1.0'
 end
 

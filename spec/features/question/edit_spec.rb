@@ -3,10 +3,10 @@
 require 'rails_helper'
 
 describe 'User can edit his question' do
-  let!(:user)        { create :user }
-  let!(:second_user) { create :user }
-  let!(:question)    { create :question, :with_file, user: user }
-  let!(:link)        { create :link, linkable: question }
+  let!(:user)        { create(:user) }
+  let!(:second_user) { create(:user) }
+  let!(:question)    { create(:question, :with_file, user:) }
+  let!(:link)        { create(:link, linkable: question) }
 
   it 'unauthenticated user can not edit question' do
     visit question_path(question)

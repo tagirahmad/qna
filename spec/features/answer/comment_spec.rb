@@ -3,9 +3,9 @@
 require 'rails_helper'
 
 describe 'User can add a comment to answer' do
-  let(:user)      { create :user }
-  let!(:question) { create :question }
-  let!(:answer)   { create :answer, question: question }
+  let(:user)      { create(:user) }
+  let!(:question) { create(:question) }
+  let!(:answer)   { create(:answer, question:) }
 
   describe 'Authenticated user' do
     before do

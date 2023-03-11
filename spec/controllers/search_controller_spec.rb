@@ -5,7 +5,7 @@ require 'sphinx_helper'
 RSpec.describe SearchController, type: :controller do
   describe 'POST #search' do
     let(:search)               { Search }
-    let(:question)             { create :question }
+    let(:question)             { create(:question) }
     let(:find_question)        { post :search, params: { query: question.body } }
     let(:find_question_scoped) { post :search, params: { query: question.body, scope: 'Question' } }
 

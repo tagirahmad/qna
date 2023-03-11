@@ -5,8 +5,8 @@ require 'rails_helper'
 describe 'User can add answer to particular question', "
   In order to users can look at useful answers
 " do
-  let!(:user)     { create :user }
-  let!(:question) { create :question, user: user }
+  let!(:user)     { create(:user) }
+  let!(:question) { create(:question, user:) }
 
   describe 'Authenticated user', js: true do
     before do

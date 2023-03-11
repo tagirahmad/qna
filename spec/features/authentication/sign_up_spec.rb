@@ -25,7 +25,7 @@ describe 'User can sign up', "
   end
 
   describe 'registration failed' do
-    let(:user) { create :user, email: 'test@gmail.com' }
+    let(:user) { create(:user, email: 'test@gmail.com') }
 
     before { fill_in 'Email', with: user.email }
 

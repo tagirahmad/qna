@@ -3,9 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe CommentsController, type: :controller do
-  let(:user) { create :user }
-  let!(:question) { create :question }
-  let!(:answer)   { create :answer }
+  let(:user) { create(:user) }
+  let!(:question) { create(:question) }
+  let!(:answer)   { create(:answer) }
 
   let(:create_question_comment) do
     post :create, params: { question_id: question.id, comment: { comments: attributes_for(:comment) }, format: :js }

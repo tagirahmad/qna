@@ -4,9 +4,9 @@ require 'rails_helper'
 
 RSpec.describe NotificationMailer, type: :mailer do
   describe '#notify_about_updates_of' do
-    let(:user)     { create :user }
-    let(:question) { create :question }
-    let(:answer)   { create :answer }
+    let(:user)     { create(:user) }
+    let(:question) { create(:question) }
+    let(:answer)   { create(:answer) }
     let(:mail)     { described_class.notify_about_updates(answer, user) }
 
     describe 'when renders the headers' do

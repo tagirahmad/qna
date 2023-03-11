@@ -38,7 +38,7 @@ module Voted
   end
 
   def error(message)
-    render json: { message: message }, status: :forbidden
+    render json: { message: }, status: :forbidden
   end
 
   def find_votable

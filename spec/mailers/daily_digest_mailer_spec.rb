@@ -4,7 +4,7 @@ require 'rails_helper'
 
 describe DailyDigestMailer, type: :mailer do
   describe 'digest' do
-    let(:user) { create :user }
+    let(:user) { create(:user) }
     let(:mail) { described_class.digest(user) }
 
     describe 'when renders the headers' do

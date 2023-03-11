@@ -23,7 +23,7 @@ class QuestionsController < ApplicationController
 
   def new
     question.links.new
-    Reward.new(question: question)
+    Reward.new(question:)
   end
 
   def create
@@ -73,8 +73,8 @@ class QuestionsController < ApplicationController
     ActionCable.server.broadcast(
       'questions',
       {
-        partial: ApplicationController.render(partial: 'questions/list_item', locals: { question: question }),
-        question: question
+        partial: ApplicationController.render(partial: 'questions/list_item', locals: { question: }),
+        question:
       }
     )
   end

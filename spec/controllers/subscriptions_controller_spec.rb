@@ -3,9 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe SubscriptionsController, type: :controller do
-  let(:user)        { create :user }
-  let(:second_user) { create :user }
-  let!(:question) { create :question }
+  let(:user)        { create(:user) }
+  let(:second_user) { create(:user) }
+  let!(:question) { create(:question) }
 
   let(:create_subscription) do
     post :create, params: { subscribeable_type: question.class.to_s, subscribeable_id: question.id }, format: :js
@@ -21,7 +21,7 @@ RSpec.describe SubscriptionsController, type: :controller do
 
   # rubocop:disable RSpec/MultipleMemoizedHelpers
   describe '#DELETE destroy' do
-    let!(:subscription) { create :subscription, user: user, subscribeable: question }
+    let!(:subscription) { create(:subscription, user:, subscribeable: question) }
     let(:delete_subscription) do
       delete :destroy, params: { id: subscription }, format: :js
     end
@@ -32,7 +32,7 @@ RSpec.describe SubscriptionsController, type: :controller do
 
     it 'non-author can not delete subscription' do
       login second_user
-      expect { delete_subscription }.to change(Subscription, :count).by 0
+      expect { delete_subscription }.not_to change(Subscription, :count)
     end
   end
 end

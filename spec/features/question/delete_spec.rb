@@ -3,9 +3,9 @@
 require 'rails_helper'
 
 describe 'User can delete questions' do
-  let(:user)            { create :user }
-  let(:second_user)     { create :user }
-  let!(:question) { create :question, user: user }
+  let(:user)            { create(:user) }
+  let(:second_user)     { create(:user) }
+  let!(:question) { create(:question, user:) }
 
   context 'when deletes its own question' do
     before do

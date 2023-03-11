@@ -8,7 +8,7 @@ describe 'User can sign in', "
   I'd like to be able to sign in
 " do
   describe 'With devise' do
-    let(:user) { create :user }
+    let(:user) { create(:user) }
 
     before { visit new_user_session_path }
 

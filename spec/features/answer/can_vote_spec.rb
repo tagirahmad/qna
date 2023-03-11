@@ -3,11 +3,11 @@
 require 'rails_helper'
 
 describe 'User can vote on answer' do
-  let(:user)        { create :user }
-  let(:second_user) { create :user }
-  let(:third_user)  { create :user }
-  let(:question)    { create :question }
-  let!(:answer) { create :answer, question: question, user: user }
+  let(:user)        { create(:user) }
+  let(:second_user) { create(:user) }
+  let(:third_user)  { create(:user) }
+  let(:question)    { create(:question) }
+  let!(:answer) { create(:answer, question:, user:) }
 
   it 'Unauthorized user can not vote for answer', :js do
     visit question_path question

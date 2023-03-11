@@ -5,10 +5,10 @@ require 'rails_helper'
 describe 'User can add links to answer', '
   In order to provide additional info to answer
 ' do
-  let(:user)          { create :user }
-  let(:question)      { create :question }
-  let(:second_user)   { create :user }
-  let!(:answer) { create :answer, question: question, user: user }
+  let(:user)          { create(:user) }
+  let(:question)      { create(:question) }
+  let(:second_user)   { create(:user) }
+  let!(:answer) { create(:answer, question:, user:) }
 
   context 'when owner' do
     before { login user }

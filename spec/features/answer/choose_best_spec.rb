@@ -3,11 +3,11 @@
 require 'rails_helper'
 
 describe 'User can choose best answer' do
-  let(:user)           { create :user }
-  let(:second_user)    { create :user }
-  let(:question)       { create :question, user: user }
-  let!(:answer)        { create :answer, title: 'first answer', question:  question, user: second_user }
-  let!(:second_answer) { create :answer, title: 'second answer', question: question, user: user }
+  let(:user)           { create(:user) }
+  let(:second_user)    { create(:user) }
+  let(:question)       { create(:question, user:) }
+  let!(:answer)        { create(:answer, title: 'first answer', question:, user: second_user) }
+  let!(:second_answer) { create(:answer, title: 'second answer', question:, user:) }
 
   describe 'Authenticated user' do
     describe 'only author can choose best answer' do

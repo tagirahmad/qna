@@ -6,7 +6,7 @@ RSpec.describe FindForOauth do
   subject(:service) { described_class.new(auth) }
 
   let(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '123456') }
-  let!(:user) { create :user }
+  let!(:user) { create(:user) }
 
   context 'when user already has authorization' do
     it 'return the user' do

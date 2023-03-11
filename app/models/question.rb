@@ -22,16 +22,16 @@ class Question < ApplicationRecord
   after_create :create_subscription
 
   def subscribed?(user)
-    subscriptions.exists?(user: user)
+    subscriptions.exists?(user:)
   end
 
   def find_user_subscription(user)
-    subscriptions.find_by(user: user)
+    subscriptions.find_by(user:)
   end
 
   private
 
   def create_subscription
-    subscriptions.create(user_id: user_id)
+    subscriptions.create(user_id:)
   end
 end

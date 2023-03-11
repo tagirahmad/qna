@@ -3,10 +3,10 @@
 require 'rails_helper'
 
 describe 'User can delete links from question' do
-  let(:user) { create :user }
-  let(:second_user) { create :user }
-  let(:question)    { create :question, user: user }
-  let!(:link)       { create :link, linkable: question }
+  let(:user) { create(:user) }
+  let(:second_user) { create(:user) }
+  let(:question)    { create(:question, user:) }
+  let!(:link)       { create(:link, linkable: question) }
 
   describe 'owner' do
     it 'user deletes links when edit question', js: true do

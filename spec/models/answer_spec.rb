@@ -12,10 +12,10 @@ RSpec.describe Answer, type: :model do
   it { is_expected.to accept_nested_attributes_for :links }
 
   describe 'creation' do
-    let(:user)          { create :user }
-    let(:second_user)   { create :user }
-    let(:question)      { create :question, best_answer_id: nil, user: user }
-    let(:answer)        { create :answer, question: question, user: second_user }
+    let(:user)          { create(:user) }
+    let(:second_user)   { create(:user) }
+    let(:question)      { create(:question, best_answer_id: nil, user:) }
+    let(:answer)        { create(:answer, question:, user: second_user) }
 
     describe '#mark_as_best' do
       before { question.update(best_answer_id: answer.id) }
@@ -25,7 +25,7 @@ RSpec.describe Answer, type: :model do
       end
 
       it "question's answer author achieved a reward" do
-        create :reward, question: question
+        create(:reward, question:)
         question.reward.update(user: answer.user)
 
         expect(question.reward).to have_attributes(user: second_user)
@@ -33,7 +33,7 @@ RSpec.describe Answer, type: :model do
     end
 
     describe '#best_answer?' do
-      let(:second_answer) { create :answer, question: question, user: second_user }
+      let(:second_answer) { create(:answer, question:, user: second_user) }
 
       before { question.update(best_answer_id: answer.id) }
 
