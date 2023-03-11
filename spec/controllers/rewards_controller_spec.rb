@@ -3,11 +3,11 @@
 require 'rails_helper'
 
 RSpec.describe RewardsController, type: :controller do
-  let(:user)                   { create :user }
-  let(:second_user)            { create :user }
-  let(:question)               { create :question, user: user }
-  let(:reward)                 { create :reward, question: question, user: user }
-  let(:reward_of_another_user) { create :reward, question: question, user: second_user }
+  let(:user)                   { create(:user) }
+  let(:second_user)            { create(:user) }
+  let(:question)               { create(:question, user:) }
+  let(:reward)                 { create(:reward, question:, user:) }
+  let(:reward_of_another_user) { create(:reward, question:, user: second_user) }
 
   describe 'GET #index' do
     before do

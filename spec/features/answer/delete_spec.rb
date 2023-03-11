@@ -3,10 +3,10 @@
 require 'rails_helper'
 
 describe 'User can delete answers' do
-  let(:user)        { create :user }
-  let(:second_user) { create :user }
-  let!(:question) { create :question }
-  let!(:answer)   { create :answer, question: question, user: user }
+  let(:user)        { create(:user) }
+  let(:second_user) { create(:user) }
+  let!(:question) { create(:question) }
+  let!(:answer)   { create(:answer, question:, user:) }
 
   it 'User can delete only his answers', js: true do
     login user

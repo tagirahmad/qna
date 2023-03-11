@@ -5,11 +5,11 @@ require 'rails_helper'
 describe 'User can add links to question', '
   In order to provide additional info to question
 ' do
-  let(:user)        { create :user }
-  let(:second_user) { create :user }
+  let(:user)        { create(:user) }
+  let(:second_user) { create(:user) }
   let(:gist_url)    { 'https://gist.github.com/tagirahmad/62598000f63a19949cbfeb39793a3c29' }
   let(:gist_url2)   { 'https://google.com' }
-  let(:question)    { create :question, user: user }
+  let(:question)    { create(:question, user:) }
 
   describe 'Owner' do
     before { login user }

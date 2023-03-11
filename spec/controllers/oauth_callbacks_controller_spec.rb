@@ -17,7 +17,7 @@ RSpec.describe OauthCallbacksController, type: :controller do
     end
 
     context 'when user exists' do
-      let(:user) { create :user }
+      let(:user) { create(:user) }
 
       before do
         allow(User).to receive(:find_for_oauth).and_return(user)

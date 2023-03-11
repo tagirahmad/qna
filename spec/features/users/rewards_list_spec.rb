@@ -6,9 +6,9 @@ describe 'The user can view a list of all his rewards.' do
   let!(:users)         { create_list(:user, 2) }
   let!(:questions)     { create_list(:question, 2, user: users.first) }
   let!(:answer)        { create(:answer, question: questions.first, user: users.first) }
-  let!(:reward)        { create :reward, :with_image, question: questions.first, user: users.first }
+  let!(:reward)        { create(:reward, :with_image, question: questions.first, user: users.first) }
   let!(:second_reward) do
-    create :reward, :with_image, question: questions.last, user: users.last, name: 'second reward'
+    create(:reward, :with_image, question: questions.last, user: users.last, name: 'second reward')
   end
 
   describe 'Authenticated user' do

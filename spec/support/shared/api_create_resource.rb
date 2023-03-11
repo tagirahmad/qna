@@ -7,7 +7,7 @@ shared_examples_for 'API create resource' do |resource|
   context 'with valid attrs' do
     before do
       post api_path, params: { access_token: access_token.token,
-                               klass => attributes_for(klass) }, headers: headers
+                               klass => attributes_for(klass) }, headers:
     end
 
     it_behaves_like 'API successful status'
@@ -24,9 +24,9 @@ shared_examples_for 'API create resource' do |resource|
 
   context 'with invalid attrs' do
     it 'returns response with validator errors' do
-      post api_path, params: { access_token: access_token.token,
+      post(api_path, params: { access_token: access_token.token,
                                klass => attributes_for(klass, :invalid) },
-                     headers: headers
+                     headers:)
 
       expect(json['errors']).to all(satisfy { |err| err.include? 'can\'t be blank' })
     end

@@ -20,7 +20,7 @@ class Answer < ApplicationRecord
   def mark_as_best
     transaction do
       question.update(best_answer_id: id)
-      question.reward&.update(user: user)
+      question.reward&.update(user:)
     end
   end
 

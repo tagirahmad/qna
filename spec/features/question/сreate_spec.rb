@@ -7,7 +7,7 @@ describe 'User can create question', "
   As an authenticated user
   I'd like to be able to ask the question
 " do
-  let(:user) { create :user }
+  let(:user) { create(:user) }
   let(:prefill_in_title_and_body) do
     fill_in 'Title', with: 'Test question title'
     fill_in 'Body',  with: 'Test question body'

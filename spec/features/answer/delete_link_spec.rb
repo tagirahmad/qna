@@ -3,11 +3,11 @@
 require 'rails_helper'
 
 describe 'User can delete links from answer' do
-  let(:user) { create :user }
-  let(:second_user) { create :user }
-  let(:question)    { create :question, user: user }
-  let(:answer)      { create :answer, user: user, question: question }
-  let!(:link)       { create :link, linkable: answer }
+  let(:user) { create(:user) }
+  let(:second_user) { create(:user) }
+  let(:question)    { create(:question, user:) }
+  let(:answer)      { create(:answer, user:, question:) }
+  let!(:link)       { create(:link, linkable: answer) }
 
   describe 'Owner' do
     it 'deletes links from answer', js: true do

@@ -3,10 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe LinksController, type: :controller do
-  let(:user)            { create :user }
-  let(:second_user)     { create :user }
-  let!(:question) { create :question, user: user }
-  let!(:link)     { create :link, linkable: question }
+  let(:user)            { create(:user) }
+  let(:second_user)     { create(:user) }
+  let!(:question) { create(:question, user:) }
+  let!(:link)     { create(:link, linkable: question) }
 
   let(:delete_link) { delete :destroy, params: { id: link }, format: :js }
 

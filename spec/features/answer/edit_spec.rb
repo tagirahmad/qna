@@ -3,10 +3,10 @@
 require 'rails_helper'
 
 describe 'User can edit his answer' do
-  let!(:user)        { create :user }
-  let!(:second_user) { create :user }
-  let!(:question)    { create :question }
-  let!(:answer)      { create :answer, question: question, user: user }
+  let!(:user)        { create(:user) }
+  let!(:second_user) { create(:user) }
+  let!(:question)    { create(:question) }
+  let!(:answer)      { create(:answer, question:, user:) }
 
   it 'Unauthenticated user can not edit answer' do
     visit question_path question
@@ -16,7 +16,7 @@ describe 'User can edit his answer' do
   describe 'Authenticated user' do
     describe 'edits his answer', js: true do
       before do
-        create :link, linkable: answer
+        create(:link, linkable: answer)
         login user
         visit question_path question
       end

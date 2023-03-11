@@ -15,12 +15,12 @@ RSpec.describe User, type: :model do
   it { is_expected.to validate_presence_of :password }
 
   describe '#author_of?' do
-    let(:user)          { create :user }
-    let(:second_user)   { create :user }
-    let(:question)      { create :question }
+    let(:user)          { create(:user) }
+    let(:second_user)   { create(:user) }
+    let(:question)      { create(:question) }
 
     context 'when question' do
-      let(:user_question) { create :question, user: user }
+      let(:user_question) { create(:question, user:) }
 
       it 'user is the author of the question' do
         expect(user).to be_author_of(user_question)
@@ -32,7 +32,7 @@ RSpec.describe User, type: :model do
     end
 
     context 'when answer' do
-      let(:user_answer) { create :answer, user: user, question: create(:question) }
+      let(:user_answer) { create(:answer, user:, question: create(:question)) }
 
       it 'user is the author of the answer' do
         expect(user).to be_author_of(user_answer)

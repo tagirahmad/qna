@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe AttachmentsController, type: :controller do
-  let(:user)         { create :user }
-  let(:question)     { create :question, :with_file, user: user }
+  let(:user)         { create(:user) }
+  let(:question)     { create(:question, :with_file, user:) }
   let(:destroy_file) { delete :destroy, params: { id: question.files.first.id, format: :js } }
 
   describe 'DELETE #destroy' do

@@ -9,7 +9,7 @@ shared_examples_for 'API update resource' do |resource|
       let(:changed_fields) { attributes_for(klass, :updated) }
 
       before do
-        patch api_path, params: { access_token: access_token.token, klass => changed_fields }, headers: headers
+        patch api_path, params: { access_token: access_token.token, klass => changed_fields }, headers:
       end
 
       it 'updates attrs' do
@@ -21,7 +21,7 @@ shared_examples_for 'API update resource' do |resource|
   context 'with invalid attrs' do
     let(:invalid_attrs) { attributes_for(klass, :invalid) }
 
-    before { patch api_path, params: { access_token: access_token.token, klass => invalid_attrs }, headers: headers }
+    before { patch api_path, params: { access_token: access_token.token, klass => invalid_attrs }, headers: }
 
     it "does not update the #{resource} resource" do
       invalid_attrs.each { |attr, _value| expect { response }.not_to change instance.reload, attr }

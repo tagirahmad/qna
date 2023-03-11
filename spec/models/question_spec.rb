@@ -22,6 +22,6 @@ RSpec.describe Question, type: :model do
   end
 
   it 'creates subscription after create question' do
-    expect { create :question }.to change(Subscription, :count).by 1
+    expect { create(:question) }.to change(Subscription, :count).by 1
   end
 end

@@ -13,10 +13,10 @@ describe 'Profiles API', type: :request do
     end
 
     describe 'Authorized' do
-      let(:entity)       { create :user }
-      let(:access_token) { create :access_token, resource_owner_id: entity.id }
+      let(:entity)       { create(:user) }
+      let(:access_token) { create(:access_token, resource_owner_id: entity.id) }
 
-      before { get api_path, params: { access_token: access_token.token }, headers: headers }
+      before { get api_path, params: { access_token: access_token.token }, headers: }
 
       it_behaves_like 'API successful status'
       it_behaves_like 'API fields' do
@@ -35,11 +35,11 @@ describe 'Profiles API', type: :request do
     end
 
     describe 'Authorized' do
-      let!(:me)          { create :user }
-      let!(:second_user) { create :user }
-      let(:access_token) { create :access_token, resource_owner_id: me.id }
+      let!(:me)          { create(:user) }
+      let!(:second_user) { create(:user) }
+      let(:access_token) { create(:access_token, resource_owner_id: me.id) }
 
-      before { get api_path, params: { access_token: access_token.token }, headers: headers }
+      before { get api_path, params: { access_token: access_token.token }, headers: }
 
       it_behaves_like 'API successful status'
       it_behaves_like 'API fields' do

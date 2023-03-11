@@ -4,9 +4,9 @@ require 'rails_helper'
 
 RSpec.describe NotificationJob, type: :job do
   let(:service)  { instance_double Notification }
-  let(:users)    { create_list :user, 3 }
-  let(:question) { create :question, user: users.first }
-  let(:answer)   { create :answer, question: question }
+  let(:users)    { create_list(:user, 3) }
+  let(:question) { create(:question, user: users.first) }
+  let(:answer)   { create(:answer, question:) }
 
   before { allow(Notification).to receive(:new).and_return(service) }
 

@@ -19,9 +19,9 @@ class FindForOauth
   def find_or_create_user_with_authorization
     email = auth.info[:email]
     password = Devise.friendly_token[0, 20]
-    user = User.find_by(email: email)
+    user = User.find_by(email:)
 
-    user ||= User.create!(email: email, password: password, password_confirmation: password)
+    user ||= User.create!(email:, password:, password_confirmation: password)
 
     user.create_authorization(auth)
 

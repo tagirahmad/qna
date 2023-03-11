@@ -3,10 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
-  let(:user)          { create :user }
-  let(:second_user)   { create :user }
-  let(:question)      { create :question, user: user }
-  let(:answer) { create :answer, user: user, question: question }
+  let(:user)          { create(:user) }
+  let(:second_user)   { create(:user) }
+  let(:question)      { create(:question, user:) }
+  let(:answer) { create(:answer, user:, question:) }
 
   describe 'GET #index' do
     let(:questions) { create_list(:question, 3) }
@@ -134,7 +134,7 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    let!(:question) { create :question, user: user }
+    let!(:question) { create(:question, user:) }
     let(:delete_question) { delete :destroy, params: { id: question } }
 
     context 'when question belongs to user' do

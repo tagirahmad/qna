@@ -23,8 +23,7 @@ class SubscriptionsController < ApplicationController
     subscribeable_type = params[:subscribeable_type]
     subscribeable_id   = params[:subscribeable_id]
 
-    @subscribeable = ActiveSupport::Dependencies.constantize(subscribeable_type.capitalize)
-                                                .find(subscribeable_id)
+    @subscribeable = subscribeable_type.capitalize.constantize.find(subscribeable_id)
   end
 
   def set_subscription

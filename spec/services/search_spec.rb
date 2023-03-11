@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe Search, sphinx: true do
   let(:search)   { described_class }
-  let(:question) { create :question }
+  let(:question) { create(:question) }
 
   context 'when finding the desired result' do
     it 'with passed scope' do

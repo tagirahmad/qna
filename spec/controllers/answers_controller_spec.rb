@@ -3,9 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe AnswersController, type: :controller do
-  let(:question)    { create :question, user: user }
-  let(:second_user) { create :user }
-  let(:user)        { create :user }
+  let(:question)    { create(:question, user:) }
+  let(:second_user) { create(:user) }
+  let(:user)        { create(:user) }
 
   it_behaves_like 'voted'
 
@@ -27,7 +27,7 @@ RSpec.describe AnswersController, type: :controller do
       end
 
       it 'does not save a new answer' do
-        expect { response }.to change(question.answers, :count).by 0
+        expect { response }.not_to change(question.answers, :count)
       end
 
       it 'returns status code unprocessable_entity' do
@@ -37,7 +37,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    let!(:answer) { create :answer, user: user }
+    let!(:answer) { create(:answer, user:) }
 
     context 'when answer belongs to user' do
       it 'delete answer' do
@@ -55,7 +55,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    let!(:answer) { create(:answer, question: question, user: user) }
+    let!(:answer) { create(:answer, question:, user:) }
 
     before { login user }
 
@@ -77,10 +77,10 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe '#mark_as_best', js: true do
-    let!(:answer) { create(:answer, question: question, user: user) }
+    let!(:answer) { create(:answer, question:, user:) }
 
     before do
-      create :reward, question: answer.question
+      create(:reward, question: answer.question)
       login user
       patch :mark_as_best, params: { id: answer }, format: :js
       answer.reload
